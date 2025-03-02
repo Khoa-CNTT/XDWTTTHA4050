@@ -21,7 +21,13 @@
                     <link rel="stylesheet" href="/client/css/main.css">
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
                     <script>
-
+                        $(document).ready(function () {
+                            $('input[name="paymentMethod"]').on('change', function () {
+                                if (this.checked) {
+                                    $('input[name="paymentMethod"]').not(this).prop('checked', false);
+                                }
+                            });
+                        });
                     </script>
                 </head>
 
@@ -153,17 +159,27 @@
                                                             </div>
                                                         </td>
                                                         <td></td>
-                                                        <td></td>
                                                         <td>
-                                                            <h5 class="mb-4">Shipping</h5>
-                                                            <div class="shipping_box">
-                                                                <ul class="list">
-                                                                    <li><a href="#">Flat Rate: $5.00</a></li>
-                                                                    <li><a href="#">Free Shipping</a></li>
-                                                                    <li><a href="#">Flat Rate: $10.00</a></li>
-                                                                    <li class="active"><a href="#">Local Delivery:
-                                                                            $2.00</a>
-                                                                    </li>
+                                                            <h5 class="mb-3" style="padding: 25px 50px">Hình thức thanh
+                                                                toán
+                                                            </h5>
+                                                            <div class="common-filter">
+                                                                <ul>
+                                                                    <li class="filter-list"><input
+                                                                            class="form-check-input pixel-radio"
+                                                                            type="checkbox" name="paymentMethod"
+                                                                            value="COD" id="COD" checked><label
+                                                                            class="form-check-label" for="COD">Thanh
+                                                                            toán khi nhận
+                                                                            hàng</label></li>
+                                                                    <li class="filter-list"><input
+                                                                            class="form-check-input pixel-radio"
+                                                                            type="checkbox" name="paymentMethod"
+                                                                            value="BANKING" id="BANKING"><label
+                                                                            class="form-check-label" for="BANKING">Thanh
+                                                                            toán
+                                                                            qua
+                                                                            VNPAY</label></li>
                                                                 </ul>
                                                                 <div class="mt-4">
                                                                     <button class="btn primary-btn ">Xác

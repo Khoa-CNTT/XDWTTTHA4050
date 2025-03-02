@@ -105,12 +105,16 @@ public class ItemController {
     @PostMapping("/place-order")
     public String handlePlaceOrder(HttpServletRequest request, @RequestParam("receiverName") String receiverName,
             @RequestParam("receiverPhone") String receiverPhone,
-            @RequestParam("receiverAddress") String receiverAddress) {
+            @RequestParam("receiverAddress") String receiverAddress,
+            @RequestParam("paymentMethod") String paymentMethod) {
         User currentUser = new User();
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
-        this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverPhone, receiverAddress);
+        this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverPhone, receiverAddress, paymentMethod);
+
+        if (paymentMethod.equals("COD")) {
+        }
 
         return "redirect:/thank";
     }
