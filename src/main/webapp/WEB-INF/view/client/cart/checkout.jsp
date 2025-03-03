@@ -180,6 +180,8 @@
                                                                             toán
                                                                             qua
                                                                             VNPAY</label></li>
+                                                                    <input style="display: none;" name="total"
+                                                                        value="${total}">
                                                                 </ul>
                                                                 <div class="mt-4">
                                                                     <button class="btn primary-btn ">Xác

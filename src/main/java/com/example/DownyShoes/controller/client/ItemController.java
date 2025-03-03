@@ -1,7 +1,9 @@
 package com.example.DownyShoes.controller.client;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +24,7 @@ import com.example.DownyShoes.domain.User;
 import com.example.DownyShoes.domain.dto.ProductCriteriaDTO;
 import com.example.DownyShoes.domain.CartDetail;
 import com.example.DownyShoes.service.ProductService;
+import com.example.DownyShoes.service.VNPayService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -30,9 +33,11 @@ import jakarta.servlet.http.HttpSession;
 public class ItemController {
 
     private final ProductService productService;
+    private final VNPayService vnpayService;
 
-    public ItemController(ProductService productService) {
+    public ItemController(ProductService productService, VNPayService vnpayService) {
         this.productService = productService;
+        this.vnpayService = vnpayService;
     }
 
     @GetMapping("/product/{id}")
@@ -106,14 +111,23 @@ public class ItemController {
     public String handlePlaceOrder(HttpServletRequest request, @RequestParam("receiverName") String receiverName,
             @RequestParam("receiverPhone") String receiverPhone,
             @RequestParam("receiverAddress") String receiverAddress,
-            @RequestParam("paymentMethod") String paymentMethod) {
+            @RequestParam("paymentMethod") String paymentMethod,
+            @RequestParam("total") String total) throws UnsupportedEncodingException {
         User currentUser = new User();
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
-        this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverPhone, receiverAddress, paymentMethod);
 
-        if (paymentMethod.equals("COD")) {
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+
+        this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverPhone, receiverAddress,
+                paymentMethod, uuid);
+
+        if (!paymentMethod.equals("COD")) {
+            String ip = this.vnpayService.getIpAddress(request);
+            String vnpUrl = this.vnpayService.generateVNPayUrl(Double.parseDouble(total), uuid, ip);
+
+            return "redirect:" + vnpUrl;
         }
 
         return "redirect:/thank";
@@ -147,20 +161,21 @@ public class ItemController {
             // page = 1
             // TODO: handle exception
         }
-        //check sort price
+        // check sort price
         Pageable pageable = PageRequest.of(page - 1, 6);
-        if (productCriteriaDTO.getSort()!=null && productCriteriaDTO.getSort().isPresent()) {
+        if (productCriteriaDTO.getSort() != null && productCriteriaDTO.getSort().isPresent()) {
             String sort = productCriteriaDTO.getSort().get();
             if (sort.equals("gia-tang-dan")) {
                 pageable = PageRequest.of(page - 1, 6, Sort.by(Product_.PRICE).ascending());
 
-            }else if (sort.equals("gia-giam-dan")) {
+            } else if (sort.equals("gia-giam-dan")) {
                 pageable = PageRequest.of(page - 1, 6, Sort.by(Product_.PRICE).descending());
 
             }
         }
         Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, productCriteriaDTO);
-        List<Product> products = prs.getContent().size() > 0 ? prs.getContent() : new ArrayList<Product>();;
+        List<Product> products = prs.getContent().size() > 0 ? prs.getContent() : new ArrayList<Product>();
+        ;
 
         String qs = request.getQueryString();
         if (qs != null && !qs.isBlank()) {

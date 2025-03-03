@@ -54,12 +54,13 @@ public class ProductService {
     }
 
     public Page<Product> fetchProductsWithSpec(Pageable pageable, ProductCriteriaDTO productCriteriaDTO) {
-        if (productCriteriaDTO.getFactory() == null && productCriteriaDTO.getTarget() == null && productCriteriaDTO.getSize() == null) {
+        if (productCriteriaDTO.getFactory() == null && productCriteriaDTO.getTarget() == null
+                && productCriteriaDTO.getSize() == null) {
             return this.productRepository.findAll(pageable);
         }
 
         Specification<Product> combinedSpec = Specification.where(null);
-        
+
         if (productCriteriaDTO.getFactory() != null && productCriteriaDTO.getFactory().isPresent()) {
             Specification<Product> currentSpecs = ProductSpecs.factoryList(productCriteriaDTO.getFactory().get());
             combinedSpec = combinedSpec.and(currentSpecs);
@@ -73,7 +74,7 @@ public class ProductService {
             Specification<Product> currentSpecs = ProductSpecs.size(productCriteriaDTO.getSize().get());
             combinedSpec = combinedSpec.and(currentSpecs);
         }
-        
+
         return this.productRepository.findAll(combinedSpec, pageable);
     }
 
@@ -160,7 +161,7 @@ public class ProductService {
     }
 
     public void handlePlaceOrder(User user, HttpSession session, String receiverName, String receiverPhone,
-            String receiverAddress, String paymentMethod) {
+            String receiverAddress, String paymentMethod, String uuid) {
 
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
@@ -177,7 +178,6 @@ public class ProductService {
                 order.setStatus("PENDING");
                 order.setPaymentMethod(paymentMethod);
                 order.setPaymentStatus("PAYMENT_UNPAID");
-                final String uuid = UUID.randomUUID().toString().replace("-", "");
                 order.setPaymentRef(paymentMethod.equals("COD") ? "UNKNOWN" : uuid);
 
                 double sum = 0;
