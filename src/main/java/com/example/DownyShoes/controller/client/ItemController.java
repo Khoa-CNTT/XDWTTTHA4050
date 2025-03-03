@@ -3,6 +3,7 @@ package com.example.DownyShoes.controller.client;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -134,8 +135,15 @@ public class ItemController {
     }
 
     @GetMapping("/thank")
-    public String getThankPage(Model model) {
-        return "client/cart/thank";
+    public String getThankPage(Model model, @RequestParam("vnp_ResponseCode") Optional<String> vnpResponseCode,
+            @RequestParam("vnp_TxnRef") Optional<String> paymentRef) {
+
+        if (vnpResponseCode.isPresent() && paymentRef.isPresent()) {
+            String paymentStatus = vnpResponseCode.get().equals("00") ? "PAYMENT_SUCCESS" : "PAYMENT_FAILED";
+            this.productService.handleUpdatePaymentStatus(paymentRef.get(), paymentStatus);
+            return "client/cart/thank";
+        }
+        return "redirect:/";
     }
 
     @PostMapping("/add-product-from-view-detail")
