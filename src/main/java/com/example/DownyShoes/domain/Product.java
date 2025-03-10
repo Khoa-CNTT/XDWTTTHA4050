@@ -1,10 +1,13 @@
 package com.example.DownyShoes.domain;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -45,6 +48,9 @@ public class Product {
     @NotNull
     @Size(min = 1, max = 255, message = "Size is required")
     private String size;
+
+    @OneToMany(mappedBy = "product")
+    private List<Comment> comments;
 
     public long getId() {
         return id;

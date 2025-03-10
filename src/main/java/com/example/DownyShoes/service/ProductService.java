@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.DownyShoes.domain.Cart;
 import com.example.DownyShoes.domain.CartDetail;
+import com.example.DownyShoes.domain.Comment;
 import com.example.DownyShoes.domain.Order;
 import com.example.DownyShoes.domain.OrderDetail;
 import com.example.DownyShoes.domain.Product;
@@ -18,9 +19,11 @@ import com.example.DownyShoes.domain.User;
 import com.example.DownyShoes.domain.dto.ProductCriteriaDTO;
 import com.example.DownyShoes.repository.ProductRepository;
 import com.example.DownyShoes.service.specification.ProductSpecs;
+
 import jakarta.servlet.http.HttpSession;
 
 import com.example.DownyShoes.repository.CartRepository;
+import com.example.DownyShoes.repository.CommentRepository;
 import com.example.DownyShoes.repository.OrderDetailRepository;
 import com.example.DownyShoes.repository.OrderRepository;
 import com.example.DownyShoes.repository.CartDetailRepository;
@@ -33,16 +36,18 @@ public class ProductService {
     private final UserService userService;
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final CommentRepository commentRepository;
 
     public ProductService(ProductRepository productRepository, CartRepository cartRepository,
             CartDetailRepository cartDetailRepository, UserService userService, OrderRepository orderRepository,
-            OrderDetailRepository orderDetailRepository) {
+            OrderDetailRepository orderDetailRepository, CommentRepository commentRepository) {
         this.productRepository = productRepository;
         this.cartRepository = cartRepository;
         this.cartDetailRepository = cartDetailRepository;
         this.userService = userService;
         this.orderRepository = orderRepository;
         this.orderDetailRepository = orderDetailRepository;
+        this.commentRepository = commentRepository;
     }
 
     public Product createProduct(Product newProduct) {
@@ -221,4 +226,23 @@ public class ProductService {
         }
     }
 
+    public void handleAddComment(Comment comment) {
+        this.commentRepository.save(comment);
+    }
+
+    public List<Comment> fetchCommentsByProductId(long productId) {
+        return this.commentRepository.findByProductId(productId);
+    }
+
+    public boolean hasUserOrderedProduct(User user, long productId) {
+        List<Order> orders = this.orderRepository.findByUser(user);
+        for (Order order : orders) {
+            for (OrderDetail orderDetail : order.getOrderDetails()) {
+                if (orderDetail.getProduct().getId() == productId) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

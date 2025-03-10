@@ -56,6 +56,9 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Cart cart;
 
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
+
     public Role getRole() {
         return role;
     }

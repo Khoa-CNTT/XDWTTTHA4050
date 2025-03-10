@@ -32,6 +32,7 @@
             </head>
 
 
+
             <body>
 
                 <!-- Start Header Area -->
@@ -199,6 +200,7 @@
                 <script src="/resources/client/js/main.js"></script>
                 <script
                     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+                
             </body>
 
             </html>

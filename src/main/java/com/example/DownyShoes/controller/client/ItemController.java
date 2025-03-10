@@ -26,7 +26,8 @@ import com.example.DownyShoes.domain.dto.ProductCriteriaDTO;
 import com.example.DownyShoes.domain.CartDetail;
 import com.example.DownyShoes.service.ProductService;
 import com.example.DownyShoes.service.VNPayService;
-
+import com.example.DownyShoes.domain.Comment;
+import com.example.DownyShoes.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -35,17 +36,21 @@ public class ItemController {
 
     private final ProductService productService;
     private final VNPayService vnpayService;
+    private final UserService userService;
 
-    public ItemController(ProductService productService, VNPayService vnpayService) {
+    public ItemController(ProductService productService, VNPayService vnpayService, UserService userService) {
         this.productService = productService;
         this.vnpayService = vnpayService;
+        this.userService = userService;
     }
 
     @GetMapping("/product/{id}")
     public String getProductPage(Model model, @PathVariable long id) {
         Product product = productService.fetchProductById(id).get();
+        List<Comment> comments = this.productService.fetchCommentsByProductId(id);
         model.addAttribute("product", product);
         model.addAttribute("id", id);
+        model.addAttribute("comments", comments);
         return "client/product/detail";
     }
 
@@ -125,7 +130,7 @@ public class ItemController {
                 paymentMethod, uuid);
 
         if (!paymentMethod.equals("COD")) {
-            String ip = this.vnpayService.getIpAddress(request);
+            String ip = VNPayService.getIpAddress(request);
             String vnpUrl = this.vnpayService.generateVNPayUrl(Double.parseDouble(total), uuid, ip);
 
             return "redirect:" + vnpUrl;
@@ -195,5 +200,29 @@ public class ItemController {
         model.addAttribute("totalPages", prs.getTotalPages());
         model.addAttribute("queryString", qs);
         return "client/product/show";
+    }
+
+    @PostMapping("/comment/{id}")
+    public String handleComment(@PathVariable long id, HttpServletRequest request,
+            @RequestParam("content") String content) {
+        HttpSession session = request.getSession(false);
+        long productId = id;
+        String email = (String) session.getAttribute("email");
+        User user = this.userService.getUserByEmail(email);
+
+        // lưu comment vào database cùng với userid và productid
+        if (this.productService.hasUserOrderedProduct(user, id)) {
+            Comment comment = new Comment();
+            comment.setUser(user);
+            Product product = this.productService.fetchProductById(productId).get();
+            comment.setProduct(product);
+            comment.setContent(content);
+            this.productService.handleAddComment(comment);
+        } else {
+            // alert không được để lại bình luận khi chưa mua hàng
+            return "client/product/notcomment";
+        }
+        return "redirect:/product/" + id;
+
     }
 }
