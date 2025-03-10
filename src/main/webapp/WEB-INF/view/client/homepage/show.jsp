@@ -69,7 +69,7 @@
                                 <c:forEach items="${products}" var="product">
                                     <div class="col-lg-3 col-md-6">
                                         <div class="single-product">
-                                            <img class="img-fluid" style="height: 8rem;"
+                                            <img class="img-fluid" style="height: 15rem;"
                                                 src="resources/images/product/${product.image}" alt="">
                                             <div class="product-details">
                                                 <h6 style="font-size: 15px">

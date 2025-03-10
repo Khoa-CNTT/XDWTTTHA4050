@@ -84,16 +84,25 @@
                                         </div>
                                         <!-- <form action="/add-product-from-view-detail" method="post"
                                             modelAttribute="product"> -->
-                                        <div>
-                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-                                            <input class="form-control d-none" type="text" value="${product.id}"
-                                                name="id">
-                                            <input class="form-control d-none" type="text" name="quantity"
-                                                id="cartDetails0.quantity" id="cartDetails0.quantity" value="1">
-                                            <button data-product-id="${product.id}" style="top: 20px;"
-                                                class="btnAddToCartDetail mx-auto btn border border-secondary rounded-pill px-3 primary-btn px-4 border-0">
-                                                Add to
-                                                Cart</button>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <input type="hidden" name="${_csrf.parameterName}"
+                                                    value="${_csrf.token}">
+                                                <input class="form-control d-none" type="text" value="${product.id}"
+                                                    name="id">
+                                                <input class="form-control d-none" type="text" name="quantity"
+                                                    id="cartDetails0.quantity" id="cartDetails0.quantity" value="1">
+                                                <button data-product-id="${product.id}" style="top: 20px;"
+                                                    class="btnAddToCartDetail mx-auto btn border border-secondary rounded-pill px-3 primary-btn px-4 border-0">
+                                                    Add to
+                                                    Cart</button>
+                                            </div>
+                                            <div>
+                                                <button style="top: 20px"
+                                                    class=" mx-auto btn border border-secondary rounded-pill px-3 primary-btn px-4 border-0">
+                                                    Try on
+                                                </button>
+                                            </div>
                                         </div>
 
                                         <!-- </form> -->

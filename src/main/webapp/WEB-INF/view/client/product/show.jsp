@@ -70,29 +70,20 @@
                                         <div class="head">Size</div>
                                         <form action="#">
                                             <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size" value="36"><label
-                                                    style="margin-bottom: -15px;">36</label></div>
+                                                    type="checkbox" name="size" value="S"><label
+                                                    style="margin-bottom: -15px;">S</label></div>
                                             <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size" value="37"><label
-                                                    style="margin-bottom: -15px;">37</label></div>
+                                                    type="checkbox" name="size" value="M"><label
+                                                    style="margin-bottom: -15px;">M</label></div>
                                             <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size" value="38"><label
-                                                    style="margin-bottom: -15px;">38</label></div>
+                                                    type="checkbox" name="size" value="L"><label
+                                                    style="margin-bottom: -15px;">L</label></div>
                                             <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size" value="39"><label
-                                                    style="margin-bottom: -15px;">39</label></div>
+                                                    type="checkbox" name="size" value="XL"><label
+                                                    style="margin-bottom: -15px;">XL</label></div>
                                             <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size" value="41"><label
-                                                    style="margin-bottom: -15px;">41</label></div>
-                                            <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size" value="42"><label
-                                                    style="margin-bottom: -15px;">42</label></div>
-                                            <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size" value="43"><label
-                                                    style="margin-bottom: -15px;">43</label></div>
-                                            <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size" value="44"><label
-                                                    style="margin-bottom: -15px;">44</label></div>
+                                                    type="checkbox" name="size" value="XXL"><label
+                                                    style="margin-bottom: -15px;">XXL</label></div>
                                         </form>
                                     </div>
                                     <div class="common-filter" id="factoryFilter">
@@ -100,17 +91,21 @@
                                         <form action="#">
                                             <ul>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="Adidas"><label>Adidas</label></li>
+                                                        name="brand" value="T-shirt"><label>Áo thun</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="Nike"><label>Nike</label></li>
+                                                        name="brand" value="Shirt"><label>Áo sơ mi</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="Converse"><label>Converse</label></li>
+                                                        name="brand" value="Polo"><label>Áo polo</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="Puma"><label>Puma</label></li>
+                                                        name="brand" value="Jacket"><label>Áo khoác</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="Vans"><label>Vans</label></li>
+                                                        name="brand" value="Crop-top"><label>Áo croptop</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="Fila"><label>Fila</label></li>
+                                                        name="brand" value="Singlet"><label>Áo Singlet</label></li>
+                                                <li class="filter-list"><input class="pixel-radio" type="checkbox"
+                                                        name="brand" value="Shorts"><label>Quần short</label></li>
+                                                <li class="filter-list"><input class="pixel-radio" type="checkbox"
+                                                        name="brand" value="Jeans"><label>Quần jeans</label></li>
                                             </ul>
                                         </form>
                                     </div>
@@ -164,7 +159,7 @@
                                         <c:forEach items="${products}" var="product">
                                             <div class="col-lg-3 col-lg-4">
                                                 <div class="single-product">
-                                                    <img class="img-fluid" style="height: 8rem;"
+                                                    <img class="img-fluid" style="height: 15rem;"
                                                         src="resources/images/product/${product.image}" alt="">
                                                     <div class="product-details">
                                                         <h6 style="font-size: 15px">
@@ -179,12 +174,12 @@
                                                             </h6>
                                                         </div>
                                                         <!-- <form action="/add-product-to-cart/${product.id}" method="post"> -->
-                                                            <input type="hidden" name="${_csrf.parameterName}"
-                                                                value="${_csrf.token}">
-                                                            <button data-product-id="${product.id}" style="top: 20px;"
-                                                                class="btnAddToCartHomePage mx-auto btn border border-secondary rounded-pill px-3 primary-btn px-4 border-0">
-                                                                Add to
-                                                                Cart</button>
+                                                        <input type="hidden" name="${_csrf.parameterName}"
+                                                            value="${_csrf.token}">
+                                                        <button data-product-id="${product.id}" style="top: 20px;"
+                                                            class="btnAddToCartHomePage mx-auto btn border border-secondary rounded-pill px-3 primary-btn px-4 border-0">
+                                                            Add to
+                                                            Cart</button>
                                                         <!-- </form> -->
                                                     </div>
                                                 </div>

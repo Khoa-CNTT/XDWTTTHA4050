@@ -100,12 +100,14 @@
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <label class="form-label">Factory:</label>
                                                     <form:select class="form-select" path="factory">
-                                                        <form:option value="ADIDAS">Adidas</form:option>
-                                                        <form:option value="NIKE">Nike</form:option>
-                                                        <form:option value="VANS">Vans</form:option>
-                                                        <form:option value="FILA">Fila</form:option>
-                                                        <form:option value="CONVERSE">Converse</form:option>
-                                                        <form:option value="PUMA">Puma</form:option>
+                                                        <form:option value="T-shirt">Áo thun</form:option>
+                                                        <form:option value="Shirt">Áo sơ mi</form:option>
+                                                        <form:option value="Polo">Áo polo</form:option>
+                                                        <form:option value="Jacket">Áo khoác</form:option>
+                                                        <form:option value="Crop-top">Áo croptop</form:option>
+                                                        <form:option value="Singlet">Áo Singlet</form:option>
+                                                        <form:option value="Shorts">Quần short</form:option>
+                                                        <form:option value="Jeans">Quần jeans</form:option>
                                                     </form:select>
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
@@ -126,14 +128,11 @@
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-12">
                                                     <label class="form-label">Size:</label>
-                                                    <form:checkbox path="size" value="36" />36
-                                                    <form:checkbox path="size" value="37" />37
-                                                    <form:checkbox path="size" value="38" />38
-                                                    <form:checkbox path="size" value="39" />39
-                                                    <form:checkbox path="size" value="41" />41
-                                                    <form:checkbox path="size" value="42" />42
-                                                    <form:checkbox path="size" value="43" />43
-                                                    <form:checkbox path="size" value="44" />44
+                                                    <form:checkbox path="size" value="S" />S
+                                                    <form:checkbox path="size" value="M" />M
+                                                    <form:checkbox path="size" value="L" />L
+                                                    <form:checkbox path="size" value="XL" />XL
+                                                    <form:checkbox path="size" value="XXL" />XXL
                                                 </div>
                                                 <div class="mb-5 col-12">
                                                     <button type="submit" class="btn btn-primary">Create</button>
