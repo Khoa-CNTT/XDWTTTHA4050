@@ -3,6 +3,9 @@ package com.example.DownyShoes.controller.admin;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,9 +33,21 @@ public class ProductController {
     }
 
     @GetMapping("/admin/product")
-    public String getProductPage(Model model) {
-        List<Product> products = this.productService.fetchProducts();
-        model.addAttribute("products", products);
+    public String getProductPage(Model model, @RequestParam("page") Optional<String> pageOptional) {
+        int page = 1;
+        try {
+            if(pageOptional.isPresent()) {
+                page = Integer.parseInt(pageOptional.get());
+            }
+        } catch (Exception e) {
+            // page = 1;
+        }
+        Pageable pageable = PageRequest.of(page - 1, 5);
+        Page<Product> products = this.productService.fetchProducts(pageable);
+        List<Product> productList = products.getContent();
+        model.addAttribute("products", productList);
+        model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("currentPage", page);
         return "admin/product/show";
     }
 
@@ -46,12 +61,15 @@ public class ProductController {
     public String postCreateProductPage(Model model,
             @ModelAttribute("newProduct") @Valid Product newProduct,
             BindingResult bindingResult,
-            @RequestParam("avatarFile") MultipartFile avatarFile) {
+            @RequestParam("avatarFile") MultipartFile avatarFile,
+            @RequestParam("size") String[] size) {
         if (bindingResult.hasErrors()) {
             return "admin/product/create";
         }
         String image = this.uploadService.handleSaveUploadFile(avatarFile, "product");
         newProduct.setImage(image);
+        newProduct.setSize(String.join(",", size));
+        System.out.println("check size: " + newProduct.getSize());
         this.productService.createProduct(newProduct);
         return "redirect:/admin/product";
     }
@@ -60,13 +78,15 @@ public class ProductController {
     public String getUpdateProductPage(Model model, @PathVariable long id) {
         Optional<Product> product = this.productService.fetchProductById(id);
         model.addAttribute("newProduct", product.get());
+        model.addAttribute("size", product.get().getSize().split(","));
         return "admin/product/update";
     }
 
     @PostMapping("/admin/product/update")
     public String handleUpdateProduct(@ModelAttribute("newProduct") @Valid Product product,
             BindingResult bindingResult,
-            @RequestParam("avatarFile") MultipartFile file) {
+            @RequestParam("avatarFile") MultipartFile file,
+            @RequestParam("size") String[] size) {
         if (bindingResult.hasErrors()) {
             return "admin/product/update";
         }
@@ -84,6 +104,7 @@ public class ProductController {
             currentProduct.setShortDesc(product.getShortDesc());
             currentProduct.setFactory(product.getFactory());
             currentProduct.setTarget(product.getTarget());
+            currentProduct.setSize(String.join(",", size));
 
             this.productService.createProduct(currentProduct);
         }
@@ -110,4 +131,6 @@ public class ProductController {
         model.addAttribute("id", id);
         return "admin/product/detail";
     }
+
+    
 }

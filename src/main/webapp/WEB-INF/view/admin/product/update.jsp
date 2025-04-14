@@ -121,18 +121,31 @@
                                                         <form:option value="WOMEN">Women</form:option>
                                                     </form:select>
                                                 </div>
-                                                <div class="mb-3 col-12 col-md-6">
-                                                    <label for="avatarFile" class="form-label">Image:</label>
-                                                    <input class="form-control" type="file" id="avatarFile"
-                                                        name="avatarFile" accept=".jpg, .jpeg, .png" />
-                                                </div>
-                                                <div class="mb-3 col-12">
-                                                    <img style="max-height: 250px; display: none;" alt="avatarPreview"
-                                                        id="avatarPreview">
-                                                </div>
-                                                <div class="mb-5 col-12">
-                                                    <button type="submit" class="btn btn-warning">Update</button>
-                                                </div>
+                                                <div class="mb-3 col-12 col-md-12">
+                                                    <label class="form-label">Size:</label>
+                                                    <c:forEach var="sizeValue" items="36,37,38,39,40,41,42,43,44,45"
+                                                        varStatus="status">
+                                                        <c:set var="checked" value="false" />
+                                                        <c:forEach var="selectedSize" items="${size}">
+                                                            <c:if test="${selectedSize eq sizeValue}">
+                                                                <c:set var="checked" value="true" />
+                                                            </c:if>
+                                                        </c:forEach>
+                                                        <form:checkbox path="size" value="${sizeValue}"
+                                                            checked="${checked ? 'checked' : ''}" />${sizeValue}
+                                                    </c:forEach>
+                                                    <div class="mb-3 col-12 col-md-6">
+                                                        <label for="avatarFile" class="form-label">Image:</label>
+                                                        <input class="form-control" type="file" id="avatarFile"
+                                                            name="avatarFile" accept=".jpg, .jpeg, .png" />
+                                                    </div>
+                                                    <div class="mb-3 col-12">
+                                                        <img style="max-height: 250px; display: none;"
+                                                            alt="avatarPreview" id="avatarPreview">
+                                                    </div>
+                                                    <div class="mb-5 col-12">
+                                                        <button type="submit" class="btn btn-warning">Update</button>
+                                                    </div>
                                             </form:form>
                                         </div>
 

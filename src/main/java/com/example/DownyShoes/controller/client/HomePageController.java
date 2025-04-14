@@ -2,6 +2,9 @@ package com.example.DownyShoes.controller.client;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,12 +13,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.DownyShoes.domain.Order;
 import com.example.DownyShoes.domain.Product;
 import com.example.DownyShoes.domain.User;
 import com.example.DownyShoes.domain.dto.RegisterDTO;
+import com.example.DownyShoes.service.OrderService;
 import com.example.DownyShoes.service.ProductService;
 import com.example.DownyShoes.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -24,17 +31,22 @@ public class HomePageController {
     private final ProductService productService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final OrderService orderService;
 
-    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder) {
+
+    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder, OrderService orderService) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.orderService = orderService;
     }
 
     @GetMapping("/")
     public String getHomePage(Model model) {
-        List<Product> products = productService.fetchProducts();
-        model.addAttribute("products", products);
+        Pageable pageable = PageRequest.of(0,8);
+        Page<Product> products = this.productService.fetchProducts(pageable);
+        List<Product> productList = products.getContent();
+        model.addAttribute("products", productList);
         return "client/homepage/show";
     }
 
@@ -66,5 +78,16 @@ public class HomePageController {
     @GetMapping("/access-denied")
     public String getAccessDeniedPage() {
         return "client/auth/denied";
+    }
+
+    @GetMapping("/order-history")
+    public String getOrderHistoryPage(Model model, HttpServletRequest request) {
+        User currentUser = new User();
+        HttpSession session = request.getSession(false);
+        long id = (long) session.getAttribute("id");
+        currentUser.setId(id);
+        List<Order> orders = this.orderService.fetchOrderByUser(currentUser);
+        model.addAttribute("orders", orders);
+        return "client/cart/order-history";
     }
 }

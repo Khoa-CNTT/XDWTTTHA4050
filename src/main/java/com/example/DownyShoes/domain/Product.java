@@ -18,7 +18,7 @@ public class Product {
     private long id;
 
     @NotNull
-    @Size(min = 1, max = 255, message = "Name is required")
+    @Size(min = 1, max = 53, message = "Name is required")
     private String name;
 
     @NotNull(message = "Price must be greater than 0")
@@ -41,6 +41,10 @@ public class Product {
     private long sold;
     private String factory;
     private String target;
+
+    @NotNull
+    @Size(min = 1, max = 255, message = "Size is required")
+    private String size;
 
     public long getId() {
         return id;
@@ -122,11 +126,12 @@ public class Product {
         this.target = target;
     }
 
-    @Override
-    public String toString() {
-        return "Product [id=" + id + ", name=" + name + ", price=" + price + ", image=" + image + ", detailDesc="
-                + detailDesc + ", shortDesc=" + shortDesc + ", quantity=" + quantity + ", sold=" + sold + ", factory="
-                + factory + ", target=" + target + "]";
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
 }

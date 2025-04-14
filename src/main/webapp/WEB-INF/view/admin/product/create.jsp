@@ -124,6 +124,19 @@
                                                     <img style="max-height: 250px; display: none;" alt="avatarPreview"
                                                         id="avatarPreview">
                                                 </div>
+                                                <div class="mb-3 col-12 col-md-12">
+                                                    <label class="form-label">Size:</label>
+                                                    <form:checkbox path="size" value="36" />36
+                                                    <form:checkbox path="size" value="37" />37
+                                                    <form:checkbox path="size" value="38" />38
+                                                    <form:checkbox path="size" value="39" />39
+                                                    <form:checkbox path="size" value="40" />40
+                                                    <form:checkbox path="size" value="41" />41
+                                                    <form:checkbox path="size" value="42" />42
+                                                    <form:checkbox path="size" value="43" />43
+                                                    <form:checkbox path="size" value="44" />44
+                                                    <form:checkbox path="size" value="45" />45
+                                                </div>
                                                 <div class="mb-5 col-12">
                                                     <button type="submit" class="btn btn-primary">Create</button>
                                                 </div>

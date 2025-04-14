@@ -2,6 +2,8 @@ package com.example.DownyShoes.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.DownyShoes.domain.Role;
@@ -9,20 +11,28 @@ import com.example.DownyShoes.domain.User;
 import com.example.DownyShoes.domain.dto.RegisterDTO;
 import com.example.DownyShoes.repository.RoleRepository;
 import com.example.DownyShoes.repository.UserRepository;
+import com.example.DownyShoes.repository.ProductRepository;
+import com.example.DownyShoes.repository.OrderRepository;
+
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, ProductRepository productRepository, OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
     }
 
-    public List<User> getAllUsers() {
-        return this.userRepository.findAll();
+    public Page<User> getAllUsers(Pageable pageable) {
+        return this.userRepository.findAll(pageable);
     }
 
     public List<User> getAllUsersByEmail(String email) {
@@ -66,5 +76,17 @@ public class UserService {
 
     public User getUserByEmail(String email) {
         return this.userRepository.findByEmail(email);
+    }
+
+    public long countProduct() {
+        return this.productRepository.count();
+    }
+    
+    public long countOrder() {
+        return this.orderRepository.count();
+    }
+
+    public long countUser() {
+        return this.userRepository.count();
     }
 }

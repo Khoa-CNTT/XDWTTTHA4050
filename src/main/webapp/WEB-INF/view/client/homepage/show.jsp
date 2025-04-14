@@ -62,10 +62,11 @@
                                 <c:forEach items="${products}" var="product">
                                     <div class="col-lg-3 col-md-6">
                                         <div class="single-product">
-                                            <img class="img-fluid" src="/images/product/${product.image}" alt="">
+                                            <img class="img-fluid" style="height: 8rem;"
+                                                src="resources/images/product/${product.image}" alt="">
                                             <div class="product-details">
                                                 <h6 style="font-size: 15px">
-                                                    <a href="/product/${product.id}">
+                                                    <a style="color: black;" href="/product/${product.id}">
                                                         ${product.name}
                                                     </a>
                                                 </h6>
@@ -74,20 +75,14 @@
                                                         <fmt:formatNumber value="${product.price}" pattern="#,###" />₫
                                                     </h6>
                                                 </div>
-                                                <div class="prd-bottom">
-                                                    <a href="" class="social-info">
-                                                        <span class="lnr lnr-cross"></span>
-                                                        <p class="hover-text">add to bag</p>
-                                                    </a>
-                                                    <a href="" class="social-info">
-                                                        <span class="lnr lnr-heart"></span>
-                                                        <p class="hover-text">Wishlist</p>
-                                                    </a>
-                                                    <a href="" class="social-info">
-                                                        <span class="lnr lnr-move"></span>
-                                                        <p class="hover-text">view more</p>
-                                                    </a>
-                                                </div>
+                                                <form action="/add-product-to-cart/${product.id}" method="post">
+                                                    <input type="hidden" name="${_csrf.parameterName}"
+                                                        value="${_csrf.token}">
+                                                    <button style="top: 20px;"
+                                                        class="mx-auto btn border border-secondary rounded-pill px-3 primary-btn px-4">
+                                                        Add to
+                                                        Cart</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -190,8 +185,6 @@
                 <script src="/client/js/jquery.magnific-popup.min.js"></script>
                 <script src="/client/js/owl.carousel.min.js"></script>
                 <!--gmaps Js-->
-                <script
-                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
                 <script src="/client/js/gmaps.min.js"></script>
                 <script src="/resources/client/js/main.js"></script>
             </body>
