@@ -35,7 +35,7 @@ public class UserController {
 
     @RequestMapping("/")
     public String getHomePage(Model model) {
-        User users = this.userService.getUserByEmail("hieus2dz@gmail.com");
+        List<User> users = this.userService.getAllUsersByEmail("hieus2dz@gmail.com");
         System.out.println(users);
         model.addAttribute("message", "message");
         return "hello";
@@ -121,5 +121,6 @@ public class UserController {
         this.userService.deleteUserById(newUser.getId());
         return "redirect:/admin/user";
     }
+
 
 }

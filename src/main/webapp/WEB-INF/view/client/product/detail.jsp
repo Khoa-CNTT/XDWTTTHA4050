@@ -34,6 +34,14 @@
                 <!--================Single Product Area =================-->
                 <div class="product_image_area">
                     <div class="container">
+                        <div>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">${product.name}</li>
+                                </ol>
+                            </nav>
+                        </div>
                         <div class="row s_product_inner">
                             <div class="col-lg-6">
                                 <div class="s_Product_carousel">
