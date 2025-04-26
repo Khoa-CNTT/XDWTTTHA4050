@@ -33,10 +33,12 @@ public class ProductController {
     }
 
     @GetMapping("/admin/product")
-    public String getProductPage(Model model, @RequestParam("page") Optional<String> pageOptional) {
+    public String getProductPage(Model model, @RequestParam("page") Optional<String> pageOptional
+
+    ) {
         int page = 1;
         try {
-            if(pageOptional.isPresent()) {
+            if (pageOptional.isPresent()) {
                 page = Integer.parseInt(pageOptional.get());
             }
         } catch (Exception e) {
@@ -132,5 +134,4 @@ public class ProductController {
         return "admin/product/detail";
     }
 
-    
 }

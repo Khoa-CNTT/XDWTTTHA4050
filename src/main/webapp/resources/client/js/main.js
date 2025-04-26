@@ -384,6 +384,88 @@ $(document).ready(function () {
     }
   });
 
+  $('#btnFilter').click(function (event) {
+    event.preventDefault();
+
+    let factoryArr = [];
+    let sizeArr = [];
+    let targetArr = [];
+
+    $('#factoryFilter .pixel-radio:checked').each(function () {
+      factoryArr.push($(this).val());
+    });
+
+    $('#sizeFilter .pixel-radio:checked').each(function () {
+      sizeArr.push($(this).val());
+    });
+
+    $('#targetFilter .pixel-radio:checked').each(function () {
+      targetArr.push($(this).val());
+    });
+
+    let sortValue = $('input[name="price"]:checked').val();
+
+    const currentUrl = new URL(window.location.href);
+    const searchParams = currentUrl.searchParams;
+
+    // Add or update query parameters
+    searchParams.set('page', '1');
+    searchParams.set('sort', sortValue);
+
+    //reset
+    searchParams.delete('factory');
+    searchParams.delete('target');
+    searchParams.delete('size');
+
+    if (factoryArr.length > 0) {
+      searchParams.set('factory', factoryArr.join(','));
+    }
+    if (targetArr.length > 0) {
+      searchParams.set('target', targetArr.join(','));
+    }
+    if (sizeArr.length > 0) {
+      searchParams.set('size', sizeArr.join(','));
+    }
+
+    // Update the URL and reload the page
+    window.location.href = currentUrl.toString();
+  });
+
+  //handle auto checkbox after page loading
+  // Parse the URL parameters
+  const params = new URLSearchParams(window.location.search);
+
+  // Set checkboxes for 'factory'
+  if (params.has('factory')) {
+    const factories = params.get('factory').split(',');
+    factories.forEach(factory => {
+      $(`#factoryFilter .pixel-radio[value="${factory}"]`).prop('checked', true);
+    });
+  }
+
+  // Set checkboxes for 'size'
+  if (params.has('size')) {
+    const sizes = params.get('size').split(',');
+    sizes.forEach(size => {
+      $(`#sizeFilter .pixel-radio[value="${size}"]`).prop('checked', true);
+    });
+  }
+
+  // Set checkboxes for 'target'
+  if (params.has('target')) {
+    const targets = params.get('target').split(',');
+    targets.forEach(target => {
+      $(`#targetFilter .pixel-radio[value="${target}"]`).prop('checked', true);
+    });
+  }
+
+  // Set radio button for 'sort'
+  if (params.has('sort')) {
+    const sort = params.get('sort');
+    $(`input[name="price"][value="${sort}"]`).prop('checked', true);
+  }
+
+
 
   function init() {
     for (var i = 0; i < quantity.length; i++) {

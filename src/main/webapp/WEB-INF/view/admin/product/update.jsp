@@ -123,7 +123,7 @@
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-12">
                                                     <label class="form-label">Size:</label>
-                                                    <c:forEach var="sizeValue" items="36,37,38,39,40,41,42,43,44,45"
+                                                    <c:forEach var="sizeValue" items="36,37,38,39,41,42,43,44"
                                                         varStatus="status">
                                                         <c:set var="checked" value="false" />
                                                         <c:forEach var="selectedSize" items="${size}">

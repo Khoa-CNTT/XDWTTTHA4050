@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.example.DownyShoes.domain.Cart;
@@ -13,8 +14,9 @@ import com.example.DownyShoes.domain.Order;
 import com.example.DownyShoes.domain.OrderDetail;
 import com.example.DownyShoes.domain.Product;
 import com.example.DownyShoes.domain.User;
+import com.example.DownyShoes.domain.dto.ProductCriteriaDTO;
 import com.example.DownyShoes.repository.ProductRepository;
-
+import com.example.DownyShoes.service.specification.ProductSpecs;
 import jakarta.servlet.http.HttpSession;
 
 import com.example.DownyShoes.repository.CartRepository;
@@ -48,6 +50,30 @@ public class ProductService {
 
     public Page<Product> fetchProducts(Pageable pageable) {
         return this.productRepository.findAll(pageable);
+    }
+
+    public Page<Product> fetchProductsWithSpec(Pageable pageable, ProductCriteriaDTO productCriteriaDTO) {
+        if (productCriteriaDTO.getFactory() == null && productCriteriaDTO.getTarget() == null && productCriteriaDTO.getSize() == null) {
+            return this.productRepository.findAll(pageable);
+        }
+
+        Specification<Product> combinedSpec = Specification.where(null);
+        
+        if (productCriteriaDTO.getFactory() != null && productCriteriaDTO.getFactory().isPresent()) {
+            Specification<Product> currentSpecs = ProductSpecs.factoryList(productCriteriaDTO.getFactory().get());
+            combinedSpec = combinedSpec.and(currentSpecs);
+        }
+        if (productCriteriaDTO.getTarget() != null && productCriteriaDTO.getTarget().isPresent()) {
+            Specification<Product> currentSpecs = ProductSpecs.targetList(productCriteriaDTO.getTarget().get());
+            combinedSpec = combinedSpec.and(currentSpecs);
+        }
+
+        if (productCriteriaDTO.getSize() != null && productCriteriaDTO.getSize().isPresent()) {
+            Specification<Product> currentSpecs = ProductSpecs.size(productCriteriaDTO.getSize().get());
+            combinedSpec = combinedSpec.and(currentSpecs);
+        }
+        
+        return this.productRepository.findAll(combinedSpec, pageable);
     }
 
     public Optional<Product> fetchProductById(long id) {

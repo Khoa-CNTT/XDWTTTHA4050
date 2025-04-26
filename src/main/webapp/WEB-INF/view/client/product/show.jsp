@@ -54,62 +54,62 @@
                                     <div class="head">Product Filters</div>
                                 </div>
                                 <div class="sidebar-filter mt-50">
-                                    <div class="common-filter">
+                                    <div class="common-filter" id="sizeFilter">
                                         <div class="head">Size</div>
                                         <form action="#">
                                             <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size"><label
+                                                    type="checkbox" name="size" value="36"><label
                                                     style="margin-bottom: -15px;">36</label></div>
                                             <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size"><label
+                                                    type="checkbox" name="size" value="37"><label
                                                     style="margin-bottom: -15px;">37</label></div>
                                             <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size"><label
+                                                    type="checkbox" name="size" value="38"><label
                                                     style="margin-bottom: -15px;">38</label></div>
                                             <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size"><label
+                                                    type="checkbox" name="size" value="39"><label
                                                     style="margin-bottom: -15px;">39</label></div>
                                             <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size"><label
+                                                    type="checkbox" name="size" value="41"><label
                                                     style="margin-bottom: -15px;">41</label></div>
                                             <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size"><label
+                                                    type="checkbox" name="size" value="42"><label
                                                     style="margin-bottom: -15px;">42</label></div>
                                             <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size"><label
+                                                    type="checkbox" name="size" value="43"><label
                                                     style="margin-bottom: -15px;">43</label></div>
                                             <div class="form-check form-check-inline"><input class="pixel-radio"
-                                                    type="checkbox" name="size"><label
+                                                    type="checkbox" name="size" value="44"><label
                                                     style="margin-bottom: -15px;">44</label></div>
                                         </form>
                                     </div>
-                                    <div class="common-filter">
+                                    <div class="common-filter" id="factoryFilter">
                                         <div class="head">Brands</div>
                                         <form action="#">
                                             <ul>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand"><label>Adidas</label></li>
+                                                        name="brand" value="Adidas"><label>Adidas</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand"><label>Nike</label></li>
+                                                        name="brand" value="Nike"><label>Nike</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand"><label>Converse</label></li>
+                                                        name="brand" value="Converse"><label>Converse</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand"><label>Puma</label></li>
+                                                        name="brand" value="Puma"><label>Puma</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand"><label>Vans</label></li>
+                                                        name="brand" value="Vans"><label>Vans</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand"><label>Fila</label></li>
+                                                        name="brand" value="Fila"><label>Fila</label></li>
                                             </ul>
                                         </form>
                                     </div>
-                                    <div class="common-filter">
+                                    <div class="common-filter" id="targetFilter">
                                         <div class="head">Đối tượng</div>
                                         <form action="#">
                                             <ul>
-                                                <li class="filter-list"><input class="pixel-radio" type="radio"
-                                                        name="target"><label>Nam</label></li>
-                                                <li class="filter-list"><input class="pixel-radio" type="radio"
-                                                        name="target"><label>Nữ</label></li>
+                                                <li class="filter-list"><input class="pixel-radio" type="checkbox"
+                                                        name="target" value="men"><label>Nam</label></li>
+                                                <li class="filter-list"><input class="pixel-radio" type="checkbox"
+                                                        name="target" value="women"><label>Nữ</label></li>
                                             </ul>
                                         </form>
                                     </div>
@@ -118,17 +118,22 @@
                                         <form action="#">
                                             <ul>
                                                 <li class="filter-list"><input class="pixel-radio" type="radio"
-                                                        name="price"><label>Giá tăng dần</label></li>
+                                                        name="price" value="gia-tang-dan"><label>Giá tăng dần</label>
+                                                </li>
                                                 <li class="filter-list"><input class="pixel-radio" type="radio"
-                                                        name="price"><label>Giá giảm dần</label></li>
+                                                        name="price" value="gia-giam-dan"><label>Giá giảm dần</label>
+                                                </li>
                                                 <li class="filter-list"><input class="pixel-radio" type="radio"
-                                                        name="price"><label>Không sắp xếp</label></li>
+                                                        name="price" value="gia-nothing" checked><label>Không sắp
+                                                        xếp</label>
+                                                </li>
                                             </ul>
                                         </form>
                                     </div>
                                     <div class="common-filter">
                                         <button style="top: 20px;"
-                                            class="mx-auto btn border border-secondary rounded-pill px-3 primary-btn px-4 border-0">
+                                            class="mx-auto btn border border-secondary rounded-pill px-3 primary-btn px-4 border-0"
+                                            id="btnFilter">
                                             Lọc sản phẩm
                                         </button>
                                     </div>
@@ -140,6 +145,10 @@
                                 <section class="lattest-product-area pb-40 category-list">
                                     <!-- single product -->
                                     <div class="row">
+                                        <c:if test="${totalPages == 0}">
+                                            <h1>Không có sản phẩm nào</h1>
+                                        </c:if>
+
                                         <c:forEach items="${products}" var="product">
                                             <div class="col-lg-3 col-lg-4">
                                                 <div class="single-product">
@@ -172,32 +181,36 @@
                                     </div>
                                 </section>
                                 <!-- End Best Seller -->
-                                <!-- Start Filter Bar -->
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item">
-                                            <a class="${1 eq currentPage ? 'disabled page-link' : 'page-link'}"
-                                                href="/product?page=${currentPage - 1}" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                        <c:forEach begin="0" end="${totalPages - 1}" varStatus="loop">
+                                <!-- Start Pagination -->
+                                <c:if test="${totalPages > 0}">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center">
                                             <li class="page-item">
-                                                <a class="${(loop.index + 1) eq currentPage ? 'active page-link' : 'page-link'}"
-                                                    href="/product?page=${loop.index + 1}">
-                                                    ${loop.index + 1}
+                                                <a class="${1 eq currentPage ? 'disabled page-link' : 'page-link'}"
+                                                    href="/product?page=${currentPage - 1}${queryString}"
+                                                    aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
                                                 </a>
                                             </li>
-                                        </c:forEach>
-                                        <li class="page-item">
-                                            <a class="${totalPages eq currentPage ? 'disabled page-link' : 'page-link'}"
-                                                href="/product?page=${currentPage + 1}" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <!-- End Filter Bar -->
+                                            <c:forEach begin="0" end="${totalPages - 1}" varStatus="loop">
+                                                <li class="page-item">
+                                                    <a class="${(loop.index + 1) eq currentPage ? 'active page-link' : 'page-link'}"
+                                                        href="/product?page=${loop.index + 1}${queryString}">
+                                                        ${loop.index + 1}
+                                                    </a>
+                                                </li>
+                                            </c:forEach>
+                                            <li class="page-item">
+                                                <a class="${totalPages eq currentPage ? 'disabled page-link' : 'page-link'}"
+                                                    href="/product?page=${currentPage + 1}${queryString}"
+                                                    aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </c:if>
+                                <!-- End Pagination -->
                             </div>
                         </div>
                     </div>
