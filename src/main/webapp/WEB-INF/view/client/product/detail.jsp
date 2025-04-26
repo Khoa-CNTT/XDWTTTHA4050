@@ -21,7 +21,12 @@
                     <link rel="stylesheet" href="/client/css/ion.rangeSlider.css" />
                     <link rel="stylesheet" href="/client/css/ion.rangeSlider.skinFlat.css" />
                     <link rel="stylesheet" href="/client/css/main.css">
+                    <meta name="_csrf" content="${_csrf.token}" />
+                    <!-- default header name is X-CSRF-TOKEN -->
+                    <meta name="_csrf_header" content="${_csrf.headerName}" />
 
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+                        rel="stylesheet">
 
                 </head>
 
@@ -40,7 +45,7 @@
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="/">Home</a></li>
                                         <li class="breadcrumb-item active" aria-current="page">${product.name}</li>
-                                        
+
                                     </ol>
                                 </nav>
                             </div>
@@ -78,18 +83,21 @@
                                             <button class="reduced items-count" type="button"><i
                                                     class="lnr lnr-chevron-down"></i></button>
                                         </div>
-                                        <form action="/add-product-from-view-detail" method="post"
-                                            modelAttribute="product">
+                                        <!-- <form action="/add-product-from-view-detail" method="post"
+                                            modelAttribute="product"> -->
+                                        <div>
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-                                            <input class="form-control d-none" type="text"
-                                                value="${product.id}" name="id">
+                                            <input class="form-control d-none" type="text" value="${product.id}"
+                                                name="id">
                                             <input class="form-control d-none" type="text" name="quantity"
-                                                id="cartDetails0.quantity">
-                                            <button style="top: 20px;"
-                                                class="mx-auto btn border border-secondary rounded-pill px-3 primary-btn px-4 border-0">
+                                                id="cartDetails0.quantity" id="cartDetails0.quantity" value="1">
+                                            <button data-product-id="${product.id}" style="top: 20px;"
+                                                class="btnAddToCartDetail mx-auto btn border border-secondary rounded-pill px-3 primary-btn px-4 border-0">
                                                 Add to
                                                 Cart</button>
-                                        </form>
+                                        </div>
+
+                                        <!-- </form> -->
                                     </div>
                                 </div>
                             </div>
@@ -534,6 +542,8 @@
                         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
                     <script src="/client/js/gmaps.min.js"></script>
                     <script src="/client/js/main.js"></script>
+                    <script
+                        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
 
                 </body>
 

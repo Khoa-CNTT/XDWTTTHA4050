@@ -26,7 +26,7 @@
                                         <li class="nav-item">
                                             <a href="/cart" class="cart">
                                                 <span class="ti-bag"></span>
-                                                <span class="cart-count">
+                                                <span class="cart-count" id="sumCart">
                                                     ${sessionScope.sum}
                                                 </span>
                                             </a>
@@ -52,7 +52,8 @@
                                 </c:if>
                                 <c:if test="${empty pageContext.request.userPrincipal}">
                                     <ul class="nav navbar-nav navbar-right">
-                                        <li class="nav-item active"><a class="nav-link" href="/login">Đăng nhập</a></li>
+                                        <li class="nav-item active"><a class="a-login nav-link" href="/login">Đăng
+                                                nhập</a></li>
                                     </ul>
                                 </c:if>
                             </div>

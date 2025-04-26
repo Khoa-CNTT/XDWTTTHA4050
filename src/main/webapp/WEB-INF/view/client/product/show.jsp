@@ -23,7 +23,19 @@
                     <link rel="stylesheet" href="/client/css/bootstrap.css">
                     <link rel="stylesheet" href="/client/css/main.css">
                     <link rel="shortcut icon" href="/client/img/fav.png">
+                    <style>
+                        .page-link.disabled {
+                            color: var(--bs-pagination-disabled-color);
+                            pointer-events: none;
+                            background-color: var(--bs-pagination-disabled-bg);
+                        }
+                    </style>
+                    <meta name="_csrf" content="${_csrf.token}" />
+                    <!-- default header name is X-CSRF-TOKEN -->
+                    <meta name="_csrf_header" content="${_csrf.headerName}" />
 
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+                        rel="stylesheet">
 
                 </head>
 
@@ -166,14 +178,14 @@
                                                                     pattern="#,###" />₫
                                                             </h6>
                                                         </div>
-                                                        <form action="/add-product-to-cart/${product.id}" method="post">
+                                                        <!-- <form action="/add-product-to-cart/${product.id}" method="post"> -->
                                                             <input type="hidden" name="${_csrf.parameterName}"
                                                                 value="${_csrf.token}">
-                                                            <button style="top: 20px;"
-                                                                class="mx-auto btn border border-secondary rounded-pill px-3 primary-btn px-4 border-0">
+                                                            <button data-product-id="${product.id}" style="top: 20px;"
+                                                                class="btnAddToCartHomePage mx-auto btn border border-secondary rounded-pill px-3 primary-btn px-4 border-0">
                                                                 Add to
                                                                 Cart</button>
-                                                        </form>
+                                                        <!-- </form> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -235,6 +247,8 @@
                     <script src="/client/js/jquery.magnific-popup.min.js"></script>
                     <script src="/client/js/owl.carousel.min.js"></script>
                     <script src="/client/js/main.js"></script>
+                    <script
+                        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
                 </body>
 
                 </html>
