@@ -466,18 +466,18 @@ $(document).ready(function () {
   }
 
 
-   //handle add to cart with ajax
-   $('.btnAddToCartHomepage').click(function (event) {
+  //handle add to cart with ajax
+  $('.btnAddToCartHomepage').click(function (event) {
     event.preventDefault();
 
     if (!isLogin()) {
-        $.toast({
-            heading: 'Lỗi thao tác',
-            text: 'Bạn cần đăng nhập tài khoản',
-            position: 'top-right',
-            icon: 'error'
-        })
-        return;
+      $.toast({
+        heading: 'Lỗi thao tác',
+        text: 'Bạn cần đăng nhập tài khoản',
+        position: 'top-right',
+        icon: 'error'
+      })
+      return;
     }
 
     const productId = $(this).attr('data-product-id');
@@ -485,45 +485,45 @@ $(document).ready(function () {
     const header = $("meta[name='_csrf_header']").attr("content");
 
     $.ajax({
-        url: `${window.location.origin}/api/add-product-to-cart`,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(header, token);
-        },
-        type: "POST",
-        data: JSON.stringify({ quantity: 1, productId: productId }),
-        contentType: "application/json",
+      url: `${window.location.origin}/api/add-product-to-cart`,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader(header, token);
+      },
+      type: "POST",
+      data: JSON.stringify({ quantity: 1, productId: productId }),
+      contentType: "application/json",
 
-        success: function (response) {
-            const sum = +response;
-            //update cart
-            $("#sumCart").text(sum)
-            //show message
-            $.toast({
-                heading: 'Giỏ hàng',
-                text: 'Thêm sản phẩm vào giỏ hàng thành công',
-                position: 'top-right',
+      success: function (response) {
+        const sum = +response;
+        //update cart
+        $("#sumCart").text(sum)
+        //show message
+        $.toast({
+          heading: 'Giỏ hàng',
+          text: 'Thêm sản phẩm vào giỏ hàng thành công',
+          position: 'top-right',
 
-            })
+        })
 
-        },
-        error: function (response) {
-            alert("có lỗi xảy ra, check code đi ba :v")
-            console.log("error: ", response);
-        }
+      },
+      error: function (response) {
+        alert("có lỗi xảy ra, check code đi ba :v")
+        console.log("error: ", response);
+      }
 
     });
-});
+  });
 
-$('.btnAddToCartDetail').click(function (event) {
+  $('.btnAddToCartDetail').click(function (event) {
     event.preventDefault();
     if (!isLogin()) {
-        $.toast({
-            heading: 'Lỗi thao tác',
-            text: 'Bạn cần đăng nhập tài khoản',
-            position: 'top-right',
-            icon: 'error'
-        })
-        return;
+      $.toast({
+        heading: 'Lỗi thao tác',
+        text: 'Bạn cần đăng nhập tài khoản',
+        position: 'top-right',
+        icon: 'error'
+      })
+      return;
     }
 
     const productId = $(this).attr('data-product-id');
@@ -531,43 +531,43 @@ $('.btnAddToCartDetail').click(function (event) {
     const header = $("meta[name='_csrf_header']").attr("content");
     const quantity = $("#cartDetails0\\.quantity").val();
     $.ajax({
-        url: `${window.location.origin}/api/add-product-to-cart`,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(header, token);
-        },
-        type: "POST",
-        data: JSON.stringify({ quantity: quantity, productId: productId }),
-        contentType: "application/json",
+      url: `${window.location.origin}/api/add-product-to-cart`,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader(header, token);
+      },
+      type: "POST",
+      data: JSON.stringify({ quantity: quantity, productId: productId }),
+      contentType: "application/json",
 
-        success: function (response) {
-            const sum = +response;
-            //update cart
-            $("#sumCart").text(sum)
-            //show message
-            $.toast({
-                heading: 'Giỏ hàng',
-                text: 'Thêm sản phẩm vào giỏ hàng thành công',
-                position: 'top-right',
+      success: function (response) {
+        const sum = +response;
+        //update cart
+        $("#sumCart").text(sum)
+        //show message
+        $.toast({
+          heading: 'Giỏ hàng',
+          text: 'Thêm sản phẩm vào giỏ hàng thành công',
+          position: 'top-right',
 
-            })
+        })
 
-        },
-        error: function (response) {
-            alert("có lỗi xảy ra, check code đi ba :v")
-            console.log("error: ", response);
-        }
+      },
+      error: function (response) {
+        alert("có lỗi xảy ra, check code đi ba :v")
+        console.log("error: ", response);
+      }
 
     });
-});
+  });
 
-function isLogin() {
+  function isLogin() {
     const navElement = $("#navbarCollapse");
     const childLogin = navElement.find('a.a-login');
     if (childLogin.length > 0) {
-        return false;
+      return false;
     }
     return true;
-}
+  }
 
   function init() {
     for (var i = 0; i < quantity.length; i++) {
@@ -813,3 +813,536 @@ function isLogin() {
 
 
 });
+
+
+// Try-On Modal Functions
+let modelFile = null;
+let modelPreview = null;
+let dressSource = "upload";
+let dressFile = null;
+let dressPreview = null;
+let pantsFile = null;
+let pantsPreview = null;
+let selectedProduct = null;
+let generatedImage = null;
+let isLoading = false;
+let taskId = null;
+
+const BASE_URL = window.location.origin;
+const NGROK_URL = "https://distinct-spider-cheaply.ngrok-free.app";
+const LOCALHOST_URL = "http://localhost:8080";
+const IMAGE_PATH = "resources/images/product/";
+
+function openTryOnModal() {
+  document.getElementById('tryOnOverlay').style.display = 'flex';
+  resetForm();
+  loadAllProducts();
+}
+
+function closeTryOnModal() {
+  document.getElementById('tryOnOverlay').style.display = 'none';
+  resetForm();
+}
+
+function resetForm() {
+  modelFile = null;
+  modelPreview = null;
+  dressFile = null;
+  dressPreview = null;
+  pantsFile = null;
+  pantsPreview = null;
+  selectedProduct = null;
+  generatedImage = null;
+  taskId = null;
+  isLoading = false;
+
+  document.getElementById('modelPreviewWrapper').innerHTML = `
+        <div class="uploadPlus">+</div>
+        <div>Click to upload model image</div>
+    `;
+  document.getElementById('dressPreviewWrapper').innerHTML = `
+        <div class="uploadPlus">+</div>
+        <div>Click to upload dress image</div>
+    `;
+  document.getElementById('pantsPreviewWrapper').innerHTML = `
+        <div class="uploadPlus">+</div>
+        <div>Click to upload pants image (optional)</div>
+    `;
+  document.getElementById('selectedProductPreview').style.display = 'none';
+  document.getElementById('selectedProductPreview').innerHTML = '';
+  document.getElementById('emptyState').style.display = 'block';
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('resultContainer').style.display = 'none';
+  document.querySelectorAll('.productItem').forEach(item => item.classList.remove('selected'));
+
+  document.getElementById('uploadDressBtn').classList.toggle('active', dressSource === 'upload');
+  document.getElementById('productDressBtn').classList.toggle('active', dressSource === 'product');
+  document.getElementById('dressUploadSection').style.display = dressSource === 'upload' ? 'block' : 'none';
+  document.getElementById('productSection').style.display = dressSource === 'product' ? 'block' : 'none';
+}
+
+function handleModelUpload(event) {
+  const file = event.target.files[0];
+  if (file) {
+    modelFile = file;
+    modelPreview = URL.createObjectURL(file);
+    document.getElementById('modelPreviewWrapper').innerHTML = `
+            <div class="previewWrapper">
+                <img src="${modelPreview}" alt="Model" class="previewImage" />
+                <button class="clearButton" onclick="clearModelImage()">×</button>
+            </div>
+        `;
+  }
+}
+
+function clearModelImage() {
+  modelFile = null;
+  if (modelPreview) {
+    URL.revokeObjectURL(modelPreview);
+    modelPreview = null;
+  }
+  document.getElementById('modelPreviewWrapper').innerHTML = `
+        <div class="uploadPlus">+</div>
+        <div>Click to upload model image</div>
+    `;
+}
+
+function setDressSource(source) {
+  dressSource = source;
+  document.getElementById('uploadDressBtn').classList.toggle('active', source === 'upload');
+  document.getElementById('productDressBtn').classList.toggle('active', source === 'product');
+  document.getElementById('dressUploadSection').style.display = source === 'upload' ? 'block' : 'none';
+  document.getElementById('productSection').style.display = source === 'product' ? 'block' : 'none';
+  if (source === 'product') {
+    clearDressImage();
+    clearPantsImage();
+  } else {
+    selectedProduct = null;
+    document.getElementById('selectedProductPreview').style.display = 'none';
+    document.getElementById('selectedProductPreview').innerHTML = '';
+    document.querySelectorAll('.productItem').forEach(item => item.classList.remove('selected'));
+  }
+}
+
+function handleDressUpload(event) {
+  const file = event.target.files[0];
+  if (file) {
+    dressFile = file;
+    dressPreview = URL.createObjectURL(file);
+    document.getElementById('dressPreviewWrapper').innerHTML = `
+            <div class="previewWrapper">
+                <img src="${dressPreview}" alt="Dress" class="previewImage" />
+                <button class="clearButton" onclick="clearDressImage()">×</button>
+            </div>
+        `;
+  }
+}
+
+function clearDressImage() {
+  dressFile = null;
+  if (dressPreview) {
+    URL.revokeObjectURL(dressPreview);
+    dressPreview = null;
+  }
+  document.getElementById('dressPreviewWrapper').innerHTML = `
+        <div class="uploadPlus">+</div>
+        <div>Click to upload dress image</div>
+    `;
+}
+
+function handlePantsUpload(event) {
+  const file = event.target.files[0];
+  if (file) {
+    pantsFile = file;
+    pantsPreview = URL.createObjectURL(file);
+    document.getElementById('pantsPreviewWrapper').innerHTML = `
+            <div class="previewWrapper">
+                <img src="${pantsPreview}" alt="Pants" class="previewImage" />
+                <button class="clearButton" onclick="clearPantsImage()">×</button>
+            </div>
+        `;
+  }
+}
+
+function clearPantsImage() {
+  pantsFile = null;
+  if (pantsPreview) {
+    URL.revokeObjectURL(pantsPreview);
+    pantsPreview = null;
+  }
+  document.getElementById('pantsPreviewWrapper').innerHTML = `
+        <div class="uploadPlus">+</div>
+        <div>Click to upload pants image (optional)</div>
+    `;
+}
+
+function selectProduct(id, name, imageUrl) {
+  let displayImageUrl = imageUrl;
+  if (!displayImageUrl.startsWith("http://") && !displayImageUrl.startsWith("https://")) {
+    displayImageUrl = `${LOCALHOST_URL}/${IMAGE_PATH}${displayImageUrl.startsWith("/") ? imageUrl.slice(1) : imageUrl}`;
+  }
+
+  let apiImageUrl = imageUrl;
+  if (!apiImageUrl.startsWith("http://") && !apiImageUrl.startsWith("https://")) {
+    apiImageUrl = `${NGROK_URL}/${IMAGE_PATH}${apiImageUrl.startsWith("/") ? imageUrl.slice(1) : imageUrl}`;
+  } else {
+    apiImageUrl = apiImageUrl.replace("http://localhost:8080", NGROK_URL);
+  }
+
+  selectedProduct = { id, name, displayImageUrl, apiImageUrl };
+  document.querySelectorAll('.productItem').forEach(item => item.classList.remove('selected'));
+  document.querySelector(`.productItem[data-id="${id}"]`).classList.add('selected');
+  document.getElementById('selectedProductPreview').style.display = 'block';
+  document.getElementById('selectedProductPreview').innerHTML = `
+        <img src="${displayImageUrl}" alt="${name}" />
+    `;
+}
+
+async function handleGenerateImage() {
+  if (!modelFile) {
+    $.toast({ text: "Please upload a model image", icon: 'error', position: 'top-right' });
+    return;
+  }
+  if (dressSource === "upload" && !dressFile) {
+    $.toast({ text: "Please upload a dress image", icon: 'error', position: 'top-right' });
+    return;
+  }
+  if (dressSource === "product" && !selectedProduct) {
+    $.toast({ text: "Please select a product", icon: 'error', position: 'top-right' });
+    return;
+  }
+
+  if (generatedImage) {
+    URL.revokeObjectURL(generatedImage);
+    generatedImage = null;
+  }
+
+  isLoading = true;
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('loadingState').style.display = 'flex';
+  document.getElementById('resultContainer').style.display = 'none';
+  document.getElementById('generateButton').textContent = 'Generating...';
+  document.getElementById('generateButton').disabled = true;
+
+  const formData = new FormData();
+  formData.append("modelImage", modelFile);
+  formData.append("useProductImage", dressSource === "product");
+
+  if (dressSource === "upload") {
+    formData.append("dressImage", dressFile);
+    if (pantsFile) {
+      formData.append("pantsImage", pantsFile);
+    }
+  } else {
+    console.log("Sending productImageUrl:", selectedProduct.apiImageUrl);
+    formData.append("productImageUrl", selectedProduct.apiImageUrl);
+  }
+
+  try {
+    const response = await fetch(`${BASE_URL}/api/try-on`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "X-CSRF-TOKEN": document.querySelector('meta[name="_csrf"]').content
+      }
+    });
+
+    if (response.ok) {
+      21
+      taskId = await response.text();
+      // [CẬP NHẬT] Đặt thời gian chờ 19 giây nếu cả dressFile và pantsFile đều tồn tại, còn lại là 16 giây
+      const waitTime = (dressSource === "upload" && dressFile && pantsFile) ? 22000 : 16000;
+      setTimeout(async () => {
+        2
+        await fetchTryOnResult();
+      }, waitTime);
+    } else {
+      const errorText = await response.text();
+      $.toast({ text: errorText, icon: 'error', position: 'top-right' });
+      resetLoadingState();
+    }
+  } catch (error) {
+    $.toast({ text: "Failed to generate virtual try-on: " + error.message, icon: 'error', position: 'top-right' });
+    resetLoadingState();
+  }
+}
+
+async function fetchTryOnResult() {
+  try {
+    const response = await fetch(`${BASE_URL}/api/try-on/result/${taskId}`, {
+      headers: {
+        Accept: "image/jpeg"
+      }
+    });
+
+    if (response.ok) {
+      const blob = await response.blob();
+      if (blob.type.startsWith('image/')) {
+        generatedImage = URL.createObjectURL(blob);
+        document.getElementById('generatedImage').src = generatedImage;
+        document.getElementById('emptyState').style.display = 'none';
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('resultContainer').style.display = 'flex';
+        resetLoadingState();
+      } else {
+        throw new Error("Response is not an image");
+      }
+    } else {
+      const errorText = await response.text();
+      $.toast({ text: "Failed to get try-on result: " + errorText, icon: 'error', position: 'top-right' });
+      resetLoadingState();
+    }
+  } catch (error) {
+    $.toast({ text: "An error occurred while checking the result: " + error.message, icon: 'error', position: 'top-right' });
+    resetLoadingState();
+  }
+}
+
+function resetLoadingState() {
+  isLoading = false;
+  document.getElementById('generateButton').textContent = 'Generate';
+  document.getElementById('generateButton').disabled = false;
+  if (!generatedImage) {
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('emptyState').style.display = 'block';
+  }
+}
+
+function handleDownload() {
+  if (generatedImage) {
+    const link = document.createElement('a');
+    link.href = generatedImage;
+    link.download = 'virtual-try-on-result.jpg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+}
+
+function handleClearGenerated() {
+  if (generatedImage) {
+    URL.revokeObjectURL(generatedImage);
+    generatedImage = null;
+  }
+  clearModelImage();
+  clearDressImage();
+  clearPantsImage();
+  selectedProduct = null;
+  taskId = null;
+  document.getElementById('selectedProductPreview').style.display = 'none';
+  document.getElementById('selectedProductPreview').innerHTML = '';
+  document.querySelectorAll('.productItem').forEach(item => item.classList.remove('selected'));
+  document.getElementById('emptyState').style.display = 'block';
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('resultContainer').style.display = 'none';
+}
+
+async function loadAllProducts() {
+  try {
+    const response = await fetch(`${BASE_URL}/api/try-on/images`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      const products = await response.json();
+      const productGrid = document.getElementById('productGrid');
+      productGrid.innerHTML = '';
+      products.forEach(product => {
+        const productItem = document.createElement('div');
+        productItem.className = 'productItem';
+        productItem.dataset.id = product.id;
+        productItem.onclick = () => selectProduct(product.id, product.name, product.image);
+        productItem.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="productImage" />
+                    <div class="productName">${product.name}</div>
+                `;
+        productGrid.appendChild(productItem);
+      });
+    } else {
+      $.toast({ text: 'Không tải được sản phẩm', icon: 'error', position: 'top-right' });
+    }
+  } catch (error) {
+    $.toast({ text: 'Lỗi khi tải sản phẩm: ' + error.message, icon: 'error', position: 'top-right' });
+  }
+}
+
+
+const API_URL = "http://localhost:8000";
+const userId = localStorage.getItem("userId") || "guest";
+let messages = [];
+
+function toggleChatbot() {
+  const chatbotOverlay = document.getElementById("chatbotOverlay");
+  const isOpening = chatbotOverlay.style.display !== "flex";
+  chatbotOverlay.style.display = isOpening ? "flex" : "none";
+
+  if (isOpening) {
+    loadMessages();
+    if (messages.length === 0) {
+      setTimeout(() => {
+        const welcomeMessage = {
+          role: "assistant",
+          content: "Xin chào! Tôi là KarmaAI, trợ lý ảo của Karma Shop. Tôi có thể giúp gì cho bạn hôm nay?"
+        };
+        messages.push(welcomeMessage);
+        saveMessages();
+        renderMessages();
+      }, 1000);
+    }
+  } else {
+    saveMessages();
+  }
+}
+
+function loadMessages() {
+  const savedMessages = localStorage.getItem(`chatMessages_${userId}`);
+  messages = savedMessages ? JSON.parse(savedMessages) : [];
+  renderMessages();
+}
+
+function saveMessages() {
+  const limitedMessages = messages.slice(-100);
+  localStorage.setItem(`chatMessages_${userId}`, JSON.stringify(limitedMessages));
+}
+
+function handleLogout() {
+  localStorage.removeItem(`chatMessages_guest`);
+  localStorage.removeItem("userId");
+  console.log("Đã xóa lịch sử chat và userId trong localStorage");
+}
+
+function renderMessages() {
+  const messagesContainer = document.getElementById("chatbotMessages");
+  messagesContainer.innerHTML = "";
+  messages.forEach(msg => {
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `message ${msg.role}`;
+    let content = msg.content;
+
+    // Thay thế [Xem chi tiết](http://localhost:8080/product/[id]) bằng thẻ <a>
+    content = content.replace(
+      /\[Xem chi tiết\]\(http:\/\/localhost:8080\/product\/(\d+)\)/g,
+      (match, productId) => {
+        return `<a href="http://localhost:8080/product/${productId}" class="view-detail" onclick="handleLinkClick(${productId}); return false;">Xem chi tiết</a>`;
+      }
+    );
+
+    // Thay thế [Xem chi tiết](#) bằng thẻ <a> dựa trên tên sản phẩm
+    content = content.replace(
+      /\[Xem chi tiết\]\(#\)/g,
+      (match, offset, string) => {
+        const lines = string.split('\n');
+        const line = lines.find(line => line.includes(match));
+        // Tìm ID từ "ID: [number]" trong dòng
+        const idMatch = line.match(/ID: (\d+)/);
+        let productId = idMatch ? idMatch[1] : '';
+
+        // Nếu không tìm thấy ID, thử ánh xạ tên sản phẩm
+        if (!productId) {
+          const productName = line.match(/- (.*?)(?: - Giá:|$)/)?.[1]?.trim();
+          const products = [
+            { name: "Áo Polo nam Excool", id: "10" },
+            { name: "Áo Polo Nam Pique Cotton USA", id: "12" },
+            { name: "Áo giữ nhiệt Ex-Warm Lenzing Modal cổ ngắn", id: "13" },
+            { name: "Áo thun Relaxed Fit 84RISING Venom Signature", id: "14" },
+            { name: "Áo sơ mi dài tay cổ tàu Premium Poplin", id: "15" },
+            { name: "Áo Sơ Mi Dài Tay Essentials Cotton", id: "16" },
+            { name: "Áo phao dày Ultrawarm Puffer", id: "17" },
+            { name: "Áo phao dày Ultrawarm Puffer có mũ", id: "18" },
+            { name: "Áo Croptop Trendy Cổ V 7551", id: "19" },
+            { name: "Áo Croptop Len 3 Lỗ 7436", id: "20" },
+            { name: "Áo Singlet Thể Thao Chạy Bộ Nữ MOTIVE WOMAN Airwear", id: "21" },
+            { name: "Áo Singlet MOTIVE WOMAN Simple Color", id: "22" },
+            { name: "Quần Short Nữ Đa Năng MOTIVE WM SHORT", id: "23" },
+            { name: "Quần Shorts Chạy Bộ 2 lớp Fast & Free III", id: "24" },
+            { name: "Quần Jeans Nam Copper Denim OG Slim", id: "25" }
+          ];
+          const product = products.find(p => productName?.includes(p.name));
+          productId = product ? product.id : '';
+        }
+
+        // Nếu vẫn không tìm thấy productId, trả về thông báo
+        if (!productId) {
+          console.warn("Không tìm thấy productId cho dòng:", line);
+          return '<span class="view-detail-error">Không có thông tin chi tiết</span>';
+        }
+
+        return `<a href="http://localhost:8080/product/${productId}" class="view-detail" onclick="handleLinkClick(${productId}); return false;">Xem chi tiết</a>`;
+      }
+    );
+
+    // Thay thế [Hình ảnh]([image_url]) bằng thẻ <img>
+    content = content.replace(
+      /\[Hình ảnh\]\((.*?)\)/g,
+      '<img src="$1" alt="Product Image" style="max-width: 100px; margin-right: 10px; vertical-align: middle;" />'
+    );
+
+    messageDiv.innerHTML = content;
+    messagesContainer.appendChild(messageDiv);
+  });
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function handleLinkClick(productId) {
+  if (productId) {
+    window.location.href = `http://localhost:8080/product/${productId}`;
+    toggleChatbot();
+  } else {
+    console.error("productId không hợp lệ:", productId);
+  }
+}
+
+async function sendMessage() {
+  const input = document.getElementById("chatbotInput");
+  const content = input.value.trim();
+  if (!content) return;
+
+  const userMessage = { role: "user", content };
+  messages.push(userMessage);
+  renderMessages();
+  saveMessages();
+  input.value = "";
+
+  const updatedMessages = [
+    {
+      role: "system",
+      content: "Bạn là trợ lý ảo của Karma Shop. Giúp khách hàng tìm sản phẩm hoặc tư vấn dựa trên dữ liệu từ API http://localhost:8080/api/try-on/images."
+    },
+    ...messages
+  ];
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ messages: updatedMessages })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const botMessage = { role: "assistant", content: data.response };
+      setTimeout(() => {
+        messages.push(botMessage);
+        renderMessages();
+        saveMessages();
+      }, Math.random() * 1000 + 500);
+    } else {
+      throw new Error("Lỗi API");
+    }
+  } catch (error) {
+    console.error("API Error:", error);
+    setTimeout(() => {
+      messages.push({
+        role: "assistant",
+        content: "Có lỗi xảy ra, vui lòng thử lại sau!"
+      });
+      renderMessages();
+      saveMessages();
+    }, 500);
+  }
+}

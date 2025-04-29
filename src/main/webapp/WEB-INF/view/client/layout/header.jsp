@@ -41,7 +41,7 @@
                                                 <a class="dropdown-item" href="/account-management">Quản lý tài
                                                     khoản</a>
                                                 <a class="dropdown-item" href="/order-history">Lịch sử mua hàng</a>
-                                                <form action="/logout" method="post">
+                                                <form action="/logout" method="post" onsubmit="handleLogout()">
                                                     <input type="hidden" name="${_csrf.parameterName}"
                                                         value="${_csrf.token}" />
                                                     <button class="dropdown-item" type="submit">Đăng xuất</button>
@@ -57,8 +57,6 @@
                                     </ul>
                                 </c:if>
                             </div>
-                        </div>
                     </nav>
                 </div>
-
             </header>

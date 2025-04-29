@@ -1,0 +1,614 @@
+/* Try-On Button */
+.view-detail {
+    color: #00f; /* Màu xanh */
+    text-decoration: none; /* Bỏ gạch chân */
+    font-weight: bold; /* Chữ đậm */
+}
+
+.view-detail:hover {
+    text-decoration: underline; /* Gạch chân khi hover */
+}
+
+.tryon-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #FF7000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.tryon-btn:hover {
+    background-color: #e67000;
+}
+
+/* Chatbot Button */
+.chatbot-btn {
+    position: fixed;
+    bottom: 90px; /* 20px (bottom của Try-On) + 60px (chiều cao Try-On) + 10px (khoảng cách) */
+    right: 20px; /* Cùng cột với Try-On */
+    width: 60px;
+    height: 60px;
+    background-color: #FF7000;
+    border-radius: 50%; /* Tròn giống Try-On */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.chatbot-btn:hover {
+    background-color: #e67000;
+}
+
+/* Giữ nguyên style cho form chatbot */
+.chatbot-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1001;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.chatbot-container {
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 10px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.chatbot-header {
+    background: #ff7f00;
+    color: white;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chatbot-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.chatbot-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatbot-messages .message {
+    margin: 5px 0;
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 80%;
+}
+
+.chatbot-messages .user {
+    background: #ff7f00;
+    color: white;
+    align-self: flex-end;
+}
+
+.chatbot-messages .assistant {
+    background: #f1f1f1;
+    color: black;
+    align-self: flex-start;
+}
+
+.chatbot-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.chatbot-input input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.chatbot-input button {
+    background: #ff7f00;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chatbot-input button:hover {
+    background: #e67000;
+}
+
+/* Style cho product grid và ảnh */
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.productItem {
+    cursor: pointer;
+    text-align: center;
+}
+
+.productImage {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.productName {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.tryon-btn img {
+    width: 30px;
+    height: 30px;
+}
+
+.tryOnOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    display: none;
+}
+
+.resultContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.resultContainer img {
+    max-width: 100%;
+    max-height: 80%;
+    object-fit: contain;
+}
+
+.resultButtons {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.actionButton {
+    padding: 8px 16px;
+    background-color: #C00900;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.actionButton:hover {
+    background-color: #E63933;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #E63933;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.tryOnContainer {
+    background-color: #ffffff;
+    color: #333;
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    max-width: 1600px;
+    height: 90vh;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 6px 16px rgba(192, 9, 0, 0.15);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 2px solid rgba(192, 9, 0, 0.2);
+    background-color: #c00900;
+    color: white;
+}
+
+.header h2 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.closeButton:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.mainContent {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 350px;
+    border-right: 2px solid rgba(192, 9, 0, 0.1);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow-y: auto;
+}
+
+.optionBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    background-color: rgba(192, 9, 0, 0.05);
+    padding: 0.8rem;
+    border-radius: 0.375rem;
+    color: #c00900;
+    font-weight: bold;
+}
+
+.buttonGroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+}
+
+.optionButton {
+    padding: 0.8rem;
+    background-color: #f8f8f8;
+    border: 2px solid #e0e0e0;
+    color: #333;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.optionButton:hover {
+    background-color: rgba(192, 9, 0, 0.05);
+    border-color: rgba(192, 9, 0, 0.3);
+}
+
+.optionButton.active {
+    background-color: #c00900;
+    color: white;
+    border-color: #c00900;
+}
+
+.uploadArea {
+    border: 3px dashed rgba(192, 9, 0, 0.3);
+    border-radius: 0.75rem;
+    height: 250px;
+    width: 200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative; /* Thêm để previewWrapper absolute */
+    overflow: hidden;
+}
+
+.uploadArea:hover {
+    border-color: #c00900;
+    background-color: rgba(192, 9, 0, 0.03);
+}
+
+.uploadPlaceholder {
+    text-align: center;
+    color: #777;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.uploadPlus {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #c00900;
+}
+
+.previewWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: #fff;
+    border: none; /* Bỏ border dashed */
+}
+
+.previewImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ảnh fill toàn bộ ô */
+    border-radius: 0.75rem;
+}
+
+.clearButton {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    padding: 4px;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+.clearButton:hover {
+    background-color: #f8d7da;
+    color: #c00900;
+}
+
+.generateButton {
+    background-color: #c00900;
+    border: 2px solid #c00900;
+    color: white;
+    padding: 0.8rem;
+    border-radius: 0.375rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: bold;
+}
+
+.generateButton:hover {
+    background-color: #a00800;
+}
+
+.displayArea {
+    flex: 1;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+}
+
+.generatedImage {
+    width: 100%;
+    height: 100%;
+    max-width: 800px;
+    max-height: 800px;
+    object-fit: contain;
+    border-radius: 0.75rem;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.emptyState {
+    text-align: center;
+    color: #777;
+}
+
+.emptyIcon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #c00900;
+}
+
+.emptyText {
+    font-size: 1.5rem;
+    max-width: 500px;
+}
+
+.productSection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.selectedProductPreview {
+    border: 2px solid #e0e0e0;
+    border-radius: 0.75rem;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    width: 200px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.selectedProductPreview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ảnh fill toàn bộ ô */
+}
+
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.8rem;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.375rem;
+}
+
+.productItem {
+    cursor: pointer;
+    padding: 0.5rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 0.375rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.productItem.selected {
+    border-color: #c00900;
+    background-color: rgba(192, 9, 0, 0.05);
+}
+
+.productImage {
+    width: 100%;
+    height: 80px;
+    object-fit: contain;
+}
+
+.productName {
+    font-size: 0.9rem;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.loadingState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .tryOnContainer {
+        width: 98%;
+        height: 95vh;
+    }
+
+    .sidebar {
+        width: 280px;
+        padding: 0.8rem;
+    }
+
+    .generatedImage {
+        max-width: 500px;
+        max-height: 500px;
+    }
+
+    .uploadArea {
+        height: 200px;
+        width: 180px;
+    }
+
+    .previewWrapper {
+        height: 200px;
+        width: 180px;
+    }
+
+    .selectedProductPreview {
+        height: 200px;
+        width: 180px;
+    }
+
+    .productGrid {
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        max-height: 150px;
+    }
+}
