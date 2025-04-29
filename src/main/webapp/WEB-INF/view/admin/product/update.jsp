@@ -106,14 +106,11 @@
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <label class="form-label">Factory:</label>
                                                     <form:select class="form-select" path="factory">
-                                                        <form:option value="T-shirt">Áo thun</form:option>
-                                                        <form:option value="Shirt">Áo sơ mi</form:option>
-                                                        <form:option value="Polo">Áo polo</form:option>
-                                                        <form:option value="Jacket">Áo khoác</form:option>
-                                                        <form:option value="Crop-top">Áo croptop</form:option>
-                                                        <form:option value="Singlet">Áo Singlet</form:option>
-                                                        <form:option value="Shorts">Quần short</form:option>
-                                                        <form:option value="Jeans">Quần jeans</form:option>
+                                                        <form:option value="Cardian">Cardian</form:option>
+                                                        <form:option value="Dress">Dress</form:option>
+                                                        <form:option value="Jacket">Jacket</form:option>
+                                                        <form:option value="Tee">Tee</form:option>
+                                                        <form:option value="Order">Order</form:option>
                                                     </form:select>
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
@@ -125,8 +122,7 @@
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-12">
                                                     <label class="form-label">Size:</label>
-                                                    <c:forEach var="sizeValue" items="S,M,L,XL,XXL"
-                                                        varStatus="status">
+                                                    <c:forEach var="sizeValue" items="S,M,L,XL,XXL" varStatus="status">
                                                         <c:set var="checked" value="false" />
                                                         <c:forEach var="selectedSize" items="${size}">
                                                             <c:if test="${selectedSize eq sizeValue}">

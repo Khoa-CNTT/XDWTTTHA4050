@@ -91,21 +91,15 @@
                                         <form action="#">
                                             <ul>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="T-shirt"><label>Áo thun</label></li>
+                                                        name="brand" value="Cardian"><label>Cardian</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="Shirt"><label>Áo sơ mi</label></li>
+                                                        name="brand" value="Dress"><label>Dress</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="Polo"><label>Áo polo</label></li>
+                                                        name="brand" value="Jacket"><label>Jacket</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="Jacket"><label>Áo khoác</label></li>
+                                                        name="brand" value="Tee"><label>Tee</label></li>
                                                 <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="Crop-top"><label>Áo croptop</label></li>
-                                                <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="Singlet"><label>Áo Singlet</label></li>
-                                                <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="Shorts"><label>Quần short</label></li>
-                                                <li class="filter-list"><input class="pixel-radio" type="checkbox"
-                                                        name="brand" value="Jeans"><label>Quần jeans</label></li>
+                                                        name="brand" value="Order"><label>Order</label></li>
                                             </ul>
                                         </form>
                                     </div>

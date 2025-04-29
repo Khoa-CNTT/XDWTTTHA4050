@@ -219,7 +219,7 @@
                         <div class="sectionHeader">👚 Select Dress</div>
                         <div class="buttonGroup">
                             <button class="optionButton" id="uploadDressBtn" onclick="setDressSource('upload')">Upload</button>
-                            <button class="optionButton active" id="productDressBtn" onclick="setDressSource('product')">Use Product</button>
+                            <!-- <button class="optionButton active" id="productDressBtn" onclick="setDressSource('product')">Use Product</button> -->
                         </div>
 
                         <div id="dressUploadSection">
