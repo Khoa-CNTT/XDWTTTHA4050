@@ -51,10 +51,8 @@
                                     </ul>
                                 </c:if>
                                 <c:if test="${empty pageContext.request.userPrincipal}">
-                                    <ul class="nav navbar-nav navbar-right">
-                                        <li class="nav-item active"><a class="a-login nav-link" href="/login">Đăng
-                                                nhập</a></li>
-                                    </ul>
+                                    <a class="a-login nav-link" style="color: orange;" href="/login">Đăng
+                                        nhập</a>
                                 </c:if>
                             </div>
                     </nav>

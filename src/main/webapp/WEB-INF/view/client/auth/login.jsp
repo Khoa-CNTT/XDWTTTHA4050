@@ -67,6 +67,12 @@
                                             <button type="submit" value="submit" class="primary-btn">Log In</button>
                                         </div>
                                     </form>
+                                    <div class="col-md-12 form-group">
+                                        <a href="/oauth2/authorization/google" class="primary-btn">Log In with Google</a>
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <a href="/oauth2/authorization/github" class="primary-btn">Log In with Github</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
   "use strict";
 
@@ -561,7 +560,7 @@ $(document).ready(function () {
   });
 
   function isLogin() {
-    const navElement = $("#navbarCollapse");
+    const navElement = $("#navbarSupportedContent");
     const childLogin = navElement.find('a.a-login');
     if (childLogin.length > 0) {
       return false;

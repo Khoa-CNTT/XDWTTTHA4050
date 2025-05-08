@@ -60,6 +60,8 @@
                                                 <th scope="col">Total</th>
                                                 <th scope="col">Quantity</th>
                                                 <th scope="col">Status</th>
+                                                <th scope="col"></th>
+                                                <th scope="col">Payment</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -74,12 +76,18 @@
                                                 <tr>
                                                     <td></td>
                                                     <td colspan="3">
-                                                        <h5><fmt:formatNumber pattern="#,###" value="${order.totalPrice}"
-                                                            type="currency" currencySymbol="₫" />đ</h5>
-                                                        
+                                                        <h5>
+                                                            <fmt:formatNumber pattern="#,###"
+                                                                value="${order.totalPrice}" type="currency"
+                                                                currencySymbol="₫" />đ
+                                                        </h5>
+
                                                     </td>
                                                     <td colspan="2">
                                                         <h5>${order.status}</h5>
+                                                    </td>
+                                                    <td>
+                                                        <h5>${order.paymentStatus}</h5>
                                                     </td>
                                                 </tr>
                                                 <c:forEach items="${order.orderDetails}" var="orderDetail">
@@ -88,7 +96,7 @@
                                                             <div class="media">
                                                                 <div class="d-flex">
                                                                     <img src="/images/product/${orderDetail.product.image}"
-                                                                        alt="">
+                                                                        style="width: 120px" alt="">
                                                                 </div>
                                                                 <div class="media-body">
                                                                     <p>${orderDetail.product.name}</p>
@@ -96,7 +104,7 @@
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            
+
                                                         </td>
                                                         <td>
                                                             <h5>
@@ -104,7 +112,7 @@
                                                                     value="${orderDetail.price * orderDetail.quantity}"
                                                                     type="number" />đ
                                                             </h5>
-                                                            
+
                                                         </td>
                                                         <td>
                                                             <div class="product_count">
@@ -113,6 +121,8 @@
                                                                     class="input-text qty">
                                                             </div>
                                                         </td>
+
+
 
                                                     </tr>
                                                 </c:forEach>

@@ -97,12 +97,6 @@
                                                     Add to
                                                     Cart</button>
                                             </div>
-                                            <div>
-                                                <button style="top: 20px"
-                                                    class=" mx-auto btn border border-secondary rounded-pill px-3 primary-btn px-4 border-0">
-                                                    Try on
-                                                </button>
-                                            </div>
                                         </div>
 
                                         <!-- </form> -->

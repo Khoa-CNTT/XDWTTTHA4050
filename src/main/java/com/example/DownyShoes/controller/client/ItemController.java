@@ -136,7 +136,7 @@ public class ItemController {
             return "redirect:" + vnpUrl;
         }
 
-        return "redirect:/thank";
+        return "client/cart/thank";
     }
 
     @GetMapping("/thank")
@@ -146,6 +146,9 @@ public class ItemController {
         if (vnpResponseCode.isPresent() && paymentRef.isPresent()) {
             String paymentStatus = vnpResponseCode.get().equals("00") ? "PAYMENT_SUCCESS" : "PAYMENT_FAILED";
             this.productService.handleUpdatePaymentStatus(paymentRef.get(), paymentStatus);
+            if (paymentStatus.equals("PAYMENT_FAILED")) {
+                return "redirect:/";
+            }
             return "client/cart/thank";
         }
         return "redirect:/";

@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import com.example.DownyShoes.service.CustomUserDetailsService;
 import com.example.DownyShoes.service.UserService;
+import com.example.DownyShoes.service.userinfo.CustomOAuth2UserService;
 
 import jakarta.servlet.DispatcherType;
 
@@ -55,7 +56,7 @@ public class SecurityConfiguration {
         }
 
         @Bean
-        SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        SecurityFilterChain filterChain(HttpSecurity http, UserService userService) throws Exception {
                 http
                                 .authorizeHttpRequests(authorize -> authorize
                                                 .dispatcherTypeMatchers(DispatcherType.FORWARD,
@@ -63,7 +64,9 @@ public class SecurityConfiguration {
                                                 .permitAll()
 
                                                 .requestMatchers("/", "/product/**", "/login", "/client/**", "/css/**",
-                                                "/js/**", "/client/images/**", "/register","/product/**","/api/try-on/**")
+                                                                "/js/**", "/client/images/**", "/register",
+                                                                "/product/**", "/api/try-on/**",
+                                                                "/images/**")
                                                 .permitAll()
 
                                                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
@@ -71,6 +74,13 @@ public class SecurityConfiguration {
                                                 .requestMatchers("/resources/**").permitAll()
 
                                                 .anyRequest().authenticated())
+
+                                .oauth2Login(oauth2 -> oauth2.loginPage("/login")
+                                                .defaultSuccessUrl("/", true)
+                                                .failureUrl("/login?error")
+                                                .userInfoEndpoint(user -> user
+                                                                .userService(new CustomOAuth2UserService(userService))))
+
                                 .sessionManagement((sessionManagement) -> sessionManagement
                                                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                                                 .invalidSessionUrl("/logout?expired")

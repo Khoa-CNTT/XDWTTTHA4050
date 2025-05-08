@@ -76,7 +76,7 @@
                                                         <div class="media">
                                                             <div class="d-flex">
                                                                 <img src="/images/product/${cartDetail.product.image}"
-                                                                    alt="">
+                                                                    alt="" style="width: 120px; height: 150px;">
                                                             </div>
                                                             <div class="media-body">
                                                                 <p>${cartDetail.product.name}</p>
