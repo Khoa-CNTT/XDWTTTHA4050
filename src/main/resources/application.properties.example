@@ -34,6 +34,6 @@ klingai.access-key-id=dcfc47b89f2f4e53be892db1297d2b3e
 klingai.access-key-secret=8f1349457fbd4dd89c4a2d129de9d322
 
 #oauth2
-spring.security.oauth2.client.registration.google.client-id=your_google_client_id_here
-spring.security.oauth2.client.registration.google.client-secret=your_google_client_secret_here
+spring.security.oauth2.client.registration.google.client-id=
+spring.security.oauth2.client.registration.google.client-secret=
 spring.security.oauth2.client.registration.google.scope=email,profile
