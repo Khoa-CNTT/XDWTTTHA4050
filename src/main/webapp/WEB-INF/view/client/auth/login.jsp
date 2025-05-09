@@ -56,22 +56,24 @@
                                                 onblur="this.placeholder = 'Username'">
                                         </div>
                                         <div class="col-md-12 form-group">
-                                            <input type="password" class="form-control" id="name" name="password"
+                                            <input type="password" class="form-control" id="password" name="password"
                                                 placeholder="Password" onfocus="this.placeholder = ''"
-                                                onblur="this.placeholder = 'Password'">
+                                                onblur="this.placeholder = 'Password'" minlength="6" required>>
+                                            <div class="invalid-feedback" id="passwordError">
+                                                Password must be at least 6 characters
+                                            </div>
                                         </div>
                                         <div>
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                                         </div>
                                         <div class="col-md-12 form-group">
-                                            <button type="submit" value="submit" class="primary-btn">Log In</button>
+                                            <button type="submit" value="submit" class="primary-btn"
+                                                onclick="return validateForm()">Log In</button>
                                         </div>
                                     </form>
                                     <div class="col-md-12 form-group">
-                                        <a href="/oauth2/authorization/google" class="primary-btn">Log In with Google</a>
-                                    </div>
-                                    <div class="col-md-12 form-group">
-                                        <a href="/oauth2/authorization/github" class="primary-btn">Log In with Github</a>
+                                        <a href="/oauth2/authorization/google" class="primary-btn">Log In with
+                                            Google</a>
                                     </div>
                                 </div>
                             </div>
@@ -99,6 +101,22 @@
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
                 <script src="/client/js/gmaps.min.js"></script>
                 <script src="/client/js/main.js"></script>
+                <script>
+                    function validateForm() {
+                        var password = document.getElementById('password').value;
+                        var passwordError = document.getElementById('passwordError');
+
+                        if (password.length < 6) {
+                            document.getElementById('password').classList.add('is-invalid');
+                            passwordError.style.display = 'block';
+                            return false;
+                        }
+
+                        document.getElementById('password').classList.remove('is-invalid');
+                        passwordError.style.display = 'none';
+                        return true;
+                    }
+                </script>
             </body>
 
             </html>

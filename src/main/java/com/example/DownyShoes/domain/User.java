@@ -1,5 +1,6 @@
 package com.example.DownyShoes.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -14,11 +15,13 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +33,7 @@ public class User {
     private String email;
 
     @NotNull
-    @Size(min = 6, max = 255, message = "Password is required")
+    @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
     @NotNull
@@ -41,8 +44,8 @@ public class User {
     @Size(min = 1, max = 255, message = "Address is required")
     private String address;
 
-    @NotNull
-    @Size(min = 10, max = 10, message = "Phone 10 digits")
+    @NotNull(message = "Phone number is required")
+    @Pattern(regexp = "^[0-9]{10,11}$", message = "Phone number must be 10-11 digits and contain only numbers")
     private String phone;
 
     private String avatar;

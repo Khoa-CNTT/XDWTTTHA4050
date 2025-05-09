@@ -76,7 +76,7 @@ public class SecurityConfiguration {
                                                 .anyRequest().authenticated())
 
                                 .oauth2Login(oauth2 -> oauth2.loginPage("/login")
-                                                .defaultSuccessUrl("/", true)
+                                                .successHandler(customSuccessHandler(userService))
                                                 .failureUrl("/login?error")
                                                 .userInfoEndpoint(user -> user
                                                                 .userService(new CustomOAuth2UserService(userService))))

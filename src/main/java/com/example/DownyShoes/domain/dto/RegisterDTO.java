@@ -3,6 +3,8 @@ package com.example.DownyShoes.domain.dto;
 import com.example.DownyShoes.service.validator.RegisterChecked;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @RegisterChecked
@@ -13,6 +15,8 @@ public class RegisterDTO {
     @Size(min = 1, message = "Last name must be at least 1 characters")
     private String lastName;
 
+    @NotNull(message = "Phone number is required")
+    @Pattern(regexp = "^[0-9]{10,11}$", message = "Phone number must be 10-11 digits and contain only numbers")
     private String phone;
 
     private String address;

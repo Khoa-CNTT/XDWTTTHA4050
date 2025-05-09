@@ -153,8 +153,10 @@
                                         <c:forEach items="${products}" var="product">
                                             <div class="col-lg-3 col-lg-4">
                                                 <div class="single-product">
-                                                    <img class="img-fluid" style="height: 15rem;"
-                                                        src="resources/images/product/${product.image}" alt="">
+                                                    <a href="/product/${product.id}">
+                                                        <img class="img-fluid" style="height: 15rem;"
+                                                            src="resources/images/product/${product.image}" alt="">
+                                                    </a>
                                                     <div class="product-details">
                                                         <h6 style="font-size: 15px">
                                                             <a style="color: black;" href="/product/${product.id}">

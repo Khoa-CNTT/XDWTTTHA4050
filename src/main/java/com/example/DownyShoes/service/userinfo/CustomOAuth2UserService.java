@@ -12,6 +12,8 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import com.example.DownyShoes.domain.Role;
+import com.example.DownyShoes.domain.User;
 import com.example.DownyShoes.service.UserService;
 
 @Service
@@ -33,12 +35,31 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // Process oAuth2User
         String email = (String) attributes.get("email");
-        System.out.println("User email: " + email);
+        String fullname = (String) attributes.get("name");
+
+        Role userRole = userService.getRoleByName("USER");
+
+        if (email != null) {
+            User user = userService.getUserByEmail(email);
+            if (user == null) {
+                // create new user
+                User oUser = new User();
+                oUser.setEmail(email);
+                oUser.setFullName(fullname);
+                oUser.setProvider("GOOGLE");
+                oUser.setPassword("123456");
+                oUser.setPhone("0123456789");
+                oUser.setAddress("abc");
+                oUser.setRole(userRole);
+
+                userService.saveUser(oUser);
+            }
+        }
 
         return new DefaultOAuth2User(
-                Collections.singletonList(new SimpleGrantedAuthority("ADMIN")),
+                Collections.singletonList(new SimpleGrantedAuthority(userRole.getName())),
                 oAuth2User.getAttributes(),
-                "sub");
+                "email");
     }
 
 }
