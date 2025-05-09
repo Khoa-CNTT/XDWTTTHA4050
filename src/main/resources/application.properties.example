@@ -2,7 +2,7 @@ spring.application.name=DownyShoes
 spring.jpa.hibernate.ddl-auto=update
 spring.datasource.url=jdbc:mysql://${MYSQL_HOST:localhost}:3306/downyshoes
 spring.datasource.username=root
-spring.datasource.password=123456
+spring.datasource.password=your_password_here
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.jpa.show-sql=true
 
@@ -24,16 +24,16 @@ spring.session.jdbc.initialize-schema=always
 #server.servlet.session.timeout
 #spring.session.jdbc.table-name=SPRING_SESSION
 
-vnpay.tmn-code=0WVGKF4P
-vnpay.hash-secret=P75ZYJ79NAFMFO5N3CHV0VVX0JWXFC8O
+vnpay.tmn-code=your_tmn_code_here
+vnpay.hash-secret=your_hash_secret_here
 vnpay.vnp-url=https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
 vnpay.vnp-return-url=http://localhost:8080/thank
 
 #virtual-tryon
-klingai.access-key-id=dcfc47b89f2f4e53be892db1297d2b3e
-klingai.access-key-secret=8f1349457fbd4dd89c4a2d129de9d322
+klingai.access-key-id=your_access_key_id_here
+klingai.access-key-secret=your_access_key_secret_here
 
 #oauth2
-spring.security.oauth2.client.registration.google.client-id=
-spring.security.oauth2.client.registration.google.client-secret=
+spring.security.oauth2.client.registration.google.client-id=your_google_client_id_here
+spring.security.oauth2.client.registration.google.client-secret=your_google_client_secret_here
 spring.security.oauth2.client.registration.google.scope=email,profile

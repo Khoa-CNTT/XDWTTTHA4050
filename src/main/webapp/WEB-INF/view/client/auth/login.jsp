@@ -58,7 +58,7 @@
                                         <div class="col-md-12 form-group">
                                             <input type="password" class="form-control" id="password" name="password"
                                                 placeholder="Password" onfocus="this.placeholder = ''"
-                                                onblur="this.placeholder = 'Password'" minlength="6" required>>
+                                                onblur="this.placeholder = 'Password'" minlength="6" required>
                                             <div class="invalid-feedback" id="passwordError">
                                                 Password must be at least 6 characters
                                             </div>
