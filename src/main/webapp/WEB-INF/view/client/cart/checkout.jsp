@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
             <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -141,12 +141,24 @@
                                                                             <div class="col-12 form-group mb-3">
                                                                                 <label>Số điện thoại</label>
                                                                                 <input type="text" class="form-control"
-                                                                                    name="receiverPhone" required>
+                                                                                    name="receiverPhone" required
+                                                                                    pattern="[0-9]{10,11}"
+                                                                                    title="Số điện thoại phải có 10-11 số">
+                                                                                <div class="invalid-feedback">
+                                                                                    Vui lòng nhập số điện thoại hợp lệ
+                                                                                    (10-11 số)
+                                                                                </div>
                                                                             </div>
                                                                             <div class="col-12 form-group mb-3">
                                                                                 <label>Địa chỉ</label>
                                                                                 <input type="text" class="form-control"
-                                                                                    name="receiverAddress" required>
+                                                                                    name="receiverAddress" required
+                                                                                    minlength="5"
+                                                                                    title="Địa chỉ phải có ít nhất 5 ký tự">
+                                                                                <div class="invalid-feedback">
+                                                                                    Vui lòng nhập địa chỉ hợp lệ (ít
+                                                                                    nhất 5 ký tự)
+                                                                                </div>
                                                                             </div>
                                                                             <div class="mt-4">
                                                                                 <i class="lnr lnr-arrow-left"></i>
@@ -218,6 +230,45 @@
                     <script src="/client/js/jquery.magnific-popup.min.js"></script>
                     <script src="/client/js/owl.carousel.min.js"></script>
                     <script src="/client/js/main.js"></script>
+
+                    <script>
+                        // Add validation on form submit
+                        document.querySelector('form').addEventListener('submit', function (event) {
+                            const receiverName = document.querySelector('input[name="receiverName"]');
+                            const receiverPhone = document.querySelector('input[name="receiverPhone"]');
+                            const receiverAddress = document.querySelector('input[name="receiverAddress"]');
+
+                            let isValid = true;
+
+                            // Validate name (only letters and spaces)
+                            if (!/^[A-Za-zÀ-ỹ\s]+$/.test(receiverName.value)) {
+                                receiverName.classList.add('is-invalid');
+                                isValid = false;
+                            } else {
+                                receiverName.classList.remove('is-invalid');
+                            }
+
+                            // Validate phone (10-11 digits)
+                            if (!/^[0-9]{10,11}$/.test(receiverPhone.value)) {
+                                receiverPhone.classList.add('is-invalid');
+                                isValid = false;
+                            } else {
+                                receiverPhone.classList.remove('is-invalid');
+                            }
+
+                            // Validate address (min 5 characters)
+                            if (receiverAddress.value.length < 5) {
+                                receiverAddress.classList.add('is-invalid');
+                                isValid = false;
+                            } else {
+                                receiverAddress.classList.remove('is-invalid');
+                            }
+
+                            if (!isValid) {
+                                event.preventDefault();
+                            }
+                        });
+                    </script>
 
                 </body>
 

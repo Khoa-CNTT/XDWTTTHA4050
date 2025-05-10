@@ -62,10 +62,13 @@
                                                     <c:set var="priceError">
                                                         <form:errors path="price" cssClass="invalid-feedback" />
                                                     </c:set>
-                                                    <form:input type="number"
+                                                    <form:input type="number" min="0" step="0.01"
                                                         class="form-control ${not empty priceError ? 'is-invalid' : ''}"
                                                         path="price" />
                                                     ${priceError}
+                                                    <div class="invalid-feedback">
+                                                        Price must be greater than or equal to 0.
+                                                    </div>
                                                 </div>
                                                 <div class="mb-3 col-12 ">
                                                     <label class="form-label">Detail description:</label>
@@ -92,10 +95,13 @@
                                                     <c:set var="quantityError">
                                                         <form:errors path="quantity" cssClass="invalid-feedback" />
                                                     </c:set>
-                                                    <form:input type="number"
+                                                    <form:input type="number" min="0"
                                                         class="form-control ${not empty quantityError ? 'is-invalid' : ''}"
                                                         path="quantity" />
                                                     ${quantityError}
+                                                    <div class="invalid-feedback">
+                                                        Quantity must be greater than or equal to 0.
+                                                    </div>
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <label class="form-label">Factory:</label>
@@ -117,7 +123,10 @@
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <label for="avatarFile" class="form-label">Image:</label>
                                                     <input class="form-control" type="file" id="avatarFile"
-                                                        name="avatarFile" accept=".jpg, .jpeg, .png" />
+                                                        name="avatarFile" accept=".jpg, .jpeg, .png" required />
+                                                    <div class="invalid-feedback">
+                                                        Please choose an image file.
+                                                    </div>
                                                 </div>
                                                 <div class="mb-3 col-12">
                                                     <img style="max-height: 250px; display: none;" alt="avatarPreview"
