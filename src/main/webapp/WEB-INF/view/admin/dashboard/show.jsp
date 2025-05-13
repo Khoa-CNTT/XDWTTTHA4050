@@ -60,23 +60,15 @@
                                 <div class="col-xl-6">
                                     <div class="card mb-4">
                                         <div class="card-header">
-                                            <i class="fas fa-chart-area me-1"></i>
-                                            Area Chart Example
+                                            <i class="fas fa-chart-pie me-1"></i>
+                                            Thống kê thanh toán
                                         </div>
-                                        <div class="card-body"><canvas id="myAreaChart" width="100%"
-                                                height="40"></canvas></div>
+                                        <div class="card-body">
+                                            <canvas id="paymentPieChart" width="100%" height="40"></canvas>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-6">
-                                    <div class="card mb-4">
-                                        <div class="card-header">
-                                            <i class="fas fa-chart-bar me-1"></i>
-                                            Bar Chart Example
-                                        </div>
-                                        <div class="card-body"><canvas id="myBarChart" width="100%"
-                                                height="40"></canvas></div>
-                                    </div>
-                                </div>
+                                
                             </div>
                             
                         </div>
@@ -94,6 +86,61 @@
             <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
                 crossorigin="anonymous"></script>
             <script src="js/datatables-simple-demo.js"></script>
+            <script>
+                fetch('/api/orders/total-price-by-payment-status')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Data from API:", data);
+            
+                        const ctx = document.getElementById('paymentPieChart').getContext('2d');
+            
+                        const parseNumberFromVND = (vndString) => {
+                
+                            const cleanString = vndString.replace(" VND", "").replace(/\./g, "");
+                            return parseFloat(cleanString) || 0; 
+                        };
+            
+                        const successValue = parseNumberFromVND(data.success); 
+                        const unpaidValue = parseNumberFromVND(data.unpaid);  
+            
+                        new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+                                labels: ['Đã thanh toán', 'Chưa thanh toán'],
+                                datasets: [{
+                                    data: [successValue, unpaidValue],
+                                    backgroundColor: ['#28a745', '#dc3545'],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom'
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Tổng giá trị đơn hàng theo trạng thái thanh toán'
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(tooltipItem) {
+                                                const label = tooltipItem.label || '';
+                                                const originalValue = [data.success, data.unpaid][tooltipItem.dataIndex];
+                                                return `${label}: ${originalValue}`;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi lấy dữ liệu thống kê:', error);
+                    });
+            </script>
+            
         </body>
 
         </html>
