@@ -118,12 +118,9 @@
                                                             <div class="product_count">
                                                                 <input type="text" name="qty"
                                                                     value="${orderDetail.quantity}" title="Quantity:"
-                                                                    class="input-text qty">
+                                                                    class="input-text qty" disabled>
                                                             </div>
                                                         </td>
-
-
-
                                                     </tr>
                                                 </c:forEach>
                                             </c:forEach>
@@ -133,7 +130,36 @@
                                 </div>
                             </div>
                         </div>
+                        <c:if test="${totalPages > 0}">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item">
+                                        <a class="${1 eq currentPage ? 'disabled page-link' : 'page-link'}"
+                                            href="/order-history?page=${currentPage - 1}${queryString}"
+                                            aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <c:forEach begin="0" end="${totalPages - 1}" varStatus="loop">
+                                        <li class="page-item">
+                                            <a class="${(loop.index + 1) eq currentPage ? 'active page-link' : 'page-link'}"
+                                                href="/order-history?page=${loop.index + 1}${queryString}">
+                                                ${loop.index + 1}
+                                            </a>
+                                        </li>
+                                    </c:forEach>
+                                    <li class="page-item">
+                                        <a class="${totalPages eq currentPage ? 'disabled page-link' : 'page-link'}"
+                                            href="/order-history?page=${currentPage + 1}${queryString}"
+                                            aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </c:if>
                     </section>
+
                     <!--================End Cart Area =================-->
 
                     <!-- start footer Area -->

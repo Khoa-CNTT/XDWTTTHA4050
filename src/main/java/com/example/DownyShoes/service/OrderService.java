@@ -17,7 +17,6 @@ import com.example.DownyShoes.domain.User;
 import com.example.DownyShoes.repository.OrderRepository;
 import com.example.DownyShoes.repository.OrderDetailRepository;
 
-
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
@@ -29,12 +28,13 @@ public class OrderService {
         this.orderDetailRepository = orderDetailRepository;
         this.orderRepository = orderRepository;
     }
+
     public Map<String, String> getTotalPriceByPaymentStatus() {
         List<Order> orders = this.orderRepository.findAll();
         Map<String, String> result = new HashMap<>();
         double successTotal = 0.0;
         double unpaidTotal = 0.0;
-    
+
         for (Order order : orders) {
             if ("PAYMENT_SUCCESS".equalsIgnoreCase(order.getPaymentStatus())) {
                 successTotal += order.getTotalPrice();
@@ -43,11 +43,11 @@ public class OrderService {
             }
         }
         NumberFormat vndFormat = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
-        vndFormat.setMinimumFractionDigits(0); 
+        vndFormat.setMinimumFractionDigits(0);
         vndFormat.setMaximumFractionDigits(0);
         String successFormatted = vndFormat.format(successTotal) + " VND";
         String unpaidFormatted = vndFormat.format(unpaidTotal) + " VND";
-    
+
         result.put("success", successFormatted);
         result.put("unpaid", unpaidFormatted);
         return result;
@@ -86,5 +86,9 @@ public class OrderService {
 
     public List<Order> fetchOrderByUser(User user) {
         return this.orderRepository.findByUser(user);
+    }
+
+    public Page<Order> fetchOrderByUser(User user, Pageable pageable) {
+        return this.orderRepository.findByUser(user, pageable);
     }
 }

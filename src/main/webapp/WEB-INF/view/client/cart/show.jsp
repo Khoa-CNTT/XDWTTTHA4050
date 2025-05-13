@@ -96,7 +96,7 @@
                                                                 data-id="${cartDetail.id}"
                                                                 data-price="${cartDetail.price}"
                                                                 data-cart-detail-index="${status.index}"
-                                                                title="Quantity:" class="input-text qty">
+                                                                title="Quantity:" class="input-text qty" disabled>
                                                             <button class="increase items-count" type="button"><i
                                                                     class="lnr lnr-chevron-up"></i></button>
                                                             <button class="reduced items-count" type="button"><i

@@ -78,7 +78,7 @@
                                             <div class="product_count">
                                                 <label for="qty">Quantity:</label>
                                                 <input type="text" name="qty" id="sst" value="1" title="Quantity:"
-                                                    class="input-text qty" data-cart-detail-index="0">
+                                                    class="input-text qty" data-cart-detail-index="0" disabled>
                                                 <button class="increase items-count" type="button"><i
                                                         class="lnr lnr-chevron-up"></i></button>
                                                 <button class="reduced items-count" type="button"><i

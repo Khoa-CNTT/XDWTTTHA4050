@@ -1,6 +1,7 @@
 package com.example.DownyShoes.controller.client;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.DownyShoes.domain.Order;
 import com.example.DownyShoes.domain.Product;
@@ -34,8 +36,8 @@ public class HomePageController {
     private final PasswordEncoder passwordEncoder;
     private final OrderService orderService;
 
-
-    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder, OrderService orderService) {
+    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder,
+            OrderService orderService) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
@@ -44,7 +46,7 @@ public class HomePageController {
 
     @GetMapping("/")
     public String getHomePage(Model model) {
-        Pageable pageable = PageRequest.of(0,8,Sort.by("id").descending());
+        Pageable pageable = PageRequest.of(0, 8, Sort.by("id").descending());
         Page<Product> products = this.productService.fetchProducts(pageable);
         List<Product> productList = products.getContent();
         model.addAttribute("products", productList);
@@ -82,13 +84,27 @@ public class HomePageController {
     }
 
     @GetMapping("/order-history")
-    public String getOrderHistoryPage(Model model, HttpServletRequest request) {
-        User currentUser = new User();
+    public String getOrderHistoryPage(Model model, HttpServletRequest request,
+            @RequestParam("page") Optional<String> pageOptional) {
+        int page = 1;
+        try {
+            if (pageOptional.isPresent()) {
+                page = Integer.parseInt(pageOptional.get());
+            }
+        } catch (Exception e) {
+            // page = 1;
+        }
+        Pageable pageable = PageRequest.of(page - 1, 3);
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
+        User currentUser = new User();
         currentUser.setId(id);
-        List<Order> orders = this.orderService.fetchOrderByUser(currentUser);
-        model.addAttribute("orders", orders);
+
+        Page<Order> orders = this.orderService.fetchOrderByUser(currentUser, pageable);
+
+        model.addAttribute("orders", orders.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", orders.getTotalPages());
         return "client/cart/order-history";
     }
 }
